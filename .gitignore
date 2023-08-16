@@ -1,0 +1,7 @@
+.vs/
+.DS_Store
+
+yado-backend/obj/
+yado-backend/bin/
+
+yado-backend/appsettings*
