@@ -52,13 +52,11 @@ namespace yado_backend.Data
                 .HasForeignKey(population => population.StateId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
             modelBuilder.Entity<Hotel>()
                 .HasOne(hotel => hotel.Population)
                 .WithMany(population => population.Hotels)
                 .HasForeignKey(hotel => hotel.PopulationId)
                 .OnDelete(DeleteBehavior.Cascade);
-
 
             modelBuilder.Entity<Owner>()
                 .HasOne(owner => owner.User)
