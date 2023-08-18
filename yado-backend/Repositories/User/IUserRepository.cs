@@ -11,7 +11,7 @@ namespace yado_backend.Repositories
 
         Task<bool> InsertUser(User user);
 
-        Task<bool> UpdateUser(User user);
+        Task<bool> UpdateUser(string UUID, User updatedUser);
 
         Task<bool> DeleteUserByUUID(string UUID);
     }

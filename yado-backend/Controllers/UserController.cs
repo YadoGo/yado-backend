@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using yado_backend.Models;
-using System.Collections.Generic;
 using yado_backend.Repositories;
 
 namespace yado_backend.Controllers
@@ -48,23 +47,15 @@ namespace yado_backend.Controllers
 
         }
 
-        [HttpPost("update")]
-        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        [HttpPut("{UUID}")]
+        public async Task<IActionResult> UpdateUser(string UUID, User updatedUser)
         {
-            if (user == null)
+            var success = await _userRepository.UpdateUser(UUID, updatedUser);
+            if (success)
             {
-                return BadRequest();
+                return NoContent(); 
             }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            await _userRepository.UpdateUser(user);
-
-            return NoContent();
-
+            return NotFound(); 
         }
 
         [HttpDelete]

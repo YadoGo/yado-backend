@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/emagrina/Projects/yado-backend/yado-backend/yado-backend.csproj": {}
+    "/Users/emagrina/Documents/Workspace/Studies/bootcamp-fe-gp/proyecto/yado-backend/yado-backend/yado-backend.csproj": {}
   },
   "projects": {
-    "/Users/emagrina/Projects/yado-backend/yado-backend/yado-backend.csproj": {
+    "/Users/emagrina/Documents/Workspace/Studies/bootcamp-fe-gp/proyecto/yado-backend/yado-backend/yado-backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/emagrina/Projects/yado-backend/yado-backend/yado-backend.csproj",
+        "projectUniqueName": "/Users/emagrina/Documents/Workspace/Studies/bootcamp-fe-gp/proyecto/yado-backend/yado-backend/yado-backend.csproj",
         "projectName": "yado-backend",
-        "projectPath": "/Users/emagrina/Projects/yado-backend/yado-backend/yado-backend.csproj",
+        "projectPath": "/Users/emagrina/Documents/Workspace/Studies/bootcamp-fe-gp/proyecto/yado-backend/yado-backend/yado-backend.csproj",
         "packagesPath": "/Users/emagrina/.nuget/packages/",
-        "outputPath": "/Users/emagrina/Projects/yado-backend/yado-backend/obj/",
+        "outputPath": "/Users/emagrina/Documents/Workspace/Studies/bootcamp-fe-gp/proyecto/yado-backend/yado-backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/emagrina/.nuget/NuGet/NuGet.Config"

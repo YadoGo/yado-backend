@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using MySqlConnector;
 using yado_backend.Data;
 using yado_backend.Models;
@@ -9,22 +10,10 @@ namespace yado_backend.Repositories
     {
 
         private readonly AppDbContext _dbContext;
+
         public UserRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-     
-        public async Task<bool> DeleteUserByUUID(string UUID)
-        {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UUID == UUID);
-            if (user != null)
-            {
-                _dbContext.Users.Remove(user);
-                var result = await _dbContext.SaveChangesAsync();
-                return result > 0;
-            }
-            return false;
         }
 
         public async Task<IEnumerable<User>> GetAllUsers()
@@ -46,14 +35,34 @@ namespace yado_backend.Repositories
             return result > 0;
         }
 
-        public async Task<bool> UpdateUser(User user)
+        public async Task<bool> UpdateUser(string UUID, User updatedUser)
         {
-            _dbContext.Users.Update(user);
-            var result = await _dbContext.SaveChangesAsync();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UUID == UUID);
+            if (user != null)
+            {
+                user.FirstName = updatedUser.FirstName;
+                user.LastName = updatedUser.LastName;
+                user.Password = updatedUser.Password;
+                user.Gender = updatedUser.Gender;
 
-            return result > 0;
-
+                var result = await _dbContext.SaveChangesAsync();
+                return result > 0;
+            }
+            return false;
         }
+
+        public async Task<bool> DeleteUserByUUID(string UUID)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UUID == UUID);
+            if (user != null)
+            {
+                _dbContext.Users.Remove(user);
+                var result = await _dbContext.SaveChangesAsync();
+                return result > 0;
+            }
+            return false;
+        }
+
     }
 }
 

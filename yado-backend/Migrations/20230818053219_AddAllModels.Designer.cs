@@ -11,7 +11,7 @@ using yado_backend.Data;
 namespace yado_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230816044521_AddAllModels")]
+    [Migration("20230818053219_AddAllModels")]
     partial class AddAllModels
     {
         /// <inheritdoc />
@@ -22,7 +22,7 @@ namespace yado_backend.Migrations
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("yado_backend.Models.Companie", b =>
+            modelBuilder.Entity("yado_backend.Models.Company", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -140,10 +140,10 @@ namespace yado_backend.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("ImagePath")
+                    b.Property<byte[]>("ImagePath")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varbinary(8000)");
 
                     b.HasKey("ID");
 
@@ -644,7 +644,7 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Site", b =>
                 {
-                    b.HasOne("yado_backend.Models.Companie", "Companie")
+                    b.HasOne("yado_backend.Models.Company", "Company")
                         .WithMany("Sites")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -656,7 +656,7 @@ namespace yado_backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Companie");
+                    b.Navigation("Company");
 
                     b.Navigation("Hotel");
                 });
@@ -683,7 +683,7 @@ namespace yado_backend.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("yado_backend.Models.Companie", b =>
+            modelBuilder.Entity("yado_backend.Models.Company", b =>
                 {
                     b.Navigation("Sites");
                 });

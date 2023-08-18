@@ -31,7 +31,7 @@ namespace yado_backend.Models
         public int CompanyId { get; set; }
       
         [Required]
-        public required Companie Companie { get; set; }
+        public required Company Company { get; set; }
     }
 }
 

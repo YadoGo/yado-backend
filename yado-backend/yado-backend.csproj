@@ -29,11 +29,30 @@
     <None Remove="Repositories\" />
     <None Remove="Data\" />
     <None Remove="Repositories\User\" />
+    <None Remove="Repositories\Favorite\" />
+    <None Remove="Repositories\Owner\" />
+    <None Remove="Repositories\Review\" />
+    <None Remove="Repositories\Population\" />
+    <None Remove="Repositories\Site\" />
+    <None Remove="Repositories\Hotel\" />
+    <None Remove="Repositories\Parameter\" />
+    <None Remove="Repositories\Image\" />
+    <None Remove="Repositories\Company\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Repositories\" />
     <Folder Include="Data\" />
     <Folder Include="Repositories\User\" />
+    <Folder Include="Repositories\Favorite\" />
+    <Folder Include="Repositories\Owner\" />
+    <Folder Include="Repositories\Review\" />
+    <Folder Include="Repositories\Population\" />
+    <Folder Include="Repositories\Site\" />
+    <Folder Include="Repositories\Hotel\" />
+    <Folder Include="Repositories\Parameter\" />
+    <Folder Include="Repositories\Image\" />
+    <Folder Include="Repositories\Company\" />
+    <Folder Include="Repositories\Company\" />
   </ItemGroup>
 </Project>

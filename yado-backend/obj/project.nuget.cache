@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ncInnrM5EzTPW1Z1M+g352cHiQXepaTbHDSg+1Ziu0gbY++qTb5V4XpX0HmX84tTh5VaDSSdDyYInbORbPYRIQ==",
+  "dgSpecHash": "rbOZgwzFtMB9qJpJD0+fCtZgcWwSTfaxZcmA3LvTIGhgWRneDfiPBS9Jd7nbYrTeCElXL7eOtUMxbmQa+Dtdlg==",
   "success": true,
-  "projectFilePath": "/Users/emagrina/Projects/yado-backend/yado-backend/yado-backend.csproj",
+  "projectFilePath": "/Users/emagrina/Documents/Workspace/Studies/bootcamp-fe-gp/proyecto/yado-backend/yado-backend/yado-backend.csproj",
   "expectedPackageFiles": [
     "/Users/emagrina/.nuget/packages/dapper/2.0.143/dapper.2.0.143.nupkg.sha512",
     "/Users/emagrina/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",

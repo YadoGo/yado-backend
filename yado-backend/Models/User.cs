@@ -23,7 +23,7 @@ namespace yado_backend.Models
         [Required]
         [EmailAddress]
         [StringLength(100)]
-        public required string Email { get; set; }
+        public new required string Email { get; set; }
 
 
         [Required]
@@ -50,7 +50,6 @@ namespace yado_backend.Models
         public virtual List<Favorite> Favorites { get; set; } = new List<Favorite>();
 
         public virtual List<Review> Reviews { get; set; } = new List<Review>();
-
 
     }
 }

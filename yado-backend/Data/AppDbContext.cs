@@ -25,7 +25,7 @@ namespace yado_backend.Data
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Image> Images { get; set; }
-        public DbSet<Companie> Companies { get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<Parameter> Parameters { get; set; }
 
@@ -121,8 +121,8 @@ namespace yado_backend.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Site>()
-                .HasOne(site => site.Companie)
-                .WithMany(companie => companie.Sites)
+                .HasOne(site => site.Company)
+                .WithMany(company => company.Sites)
                 .HasForeignKey(site => site.CompanyId)
                 .OnDelete(DeleteBehavior.Cascade);
 

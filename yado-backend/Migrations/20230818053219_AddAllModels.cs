@@ -227,8 +227,7 @@ namespace yado_backend.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ImagePath = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImagePath = table.Column<byte[]>(type: "varbinary(8000)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     HotelUuid = table.Column<string>(type: "varchar(255)", nullable: false)

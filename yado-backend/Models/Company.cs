@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace yado_backend.Models
 {
-	public class Companie
+	public class Company
 	{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
