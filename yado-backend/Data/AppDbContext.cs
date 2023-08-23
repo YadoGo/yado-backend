@@ -18,7 +18,6 @@ namespace yado_backend.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<State> States { get; set; }
         public DbSet<Population> Populations { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Owner> Owners { get; set; }
@@ -40,16 +39,10 @@ namespace yado_backend.Data
                 .HasForeignKey(user => user.RoleId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<State>()
-                  .HasOne(state => state.Country)
-                  .WithMany(country => country.States)
-                  .HasForeignKey(state => state.CountryId)
-                  .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<Population>()
-                .HasOne(population => population.State)
-                .WithMany(state => state.Populations)
-                .HasForeignKey(population => population.StateId)
+                .HasOne(population => population.Country)
+                .WithMany(country => country.Populations)
+                .HasForeignKey(population => population.CountryCode)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Hotel>()

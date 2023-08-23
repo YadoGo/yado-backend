@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using yado_backend.Models;
 using yado_backend.Repositories;
 
@@ -15,7 +16,9 @@ namespace yado_backend.Controllers
             _hotelRepository = hotelRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("{uuid}")]
+        [ResponseCache(CacheProfileName = "CacheProfile120sec")]
         public async Task<IActionResult> GetHotelByUuid(string uuid)
         {
             var hotel = await _hotelRepository.GetHotelByUuid(uuid);
@@ -26,6 +29,7 @@ namespace yado_backend.Controllers
             return Ok(hotel);
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpGet("owner/{ownerId}")]
         public async Task<IActionResult> GetAllHotelsByOwnerId(string ownerId)
         {
@@ -33,13 +37,16 @@ namespace yado_backend.Controllers
             return Ok(hotels);
         }
 
+        [AllowAnonymous]
         [HttpGet("top-review")]
+        [ResponseCache(CacheProfileName = "CacheProfile1day")]
         public async Task<IActionResult> GetAllTopHotelsReview()
         {
             var topHotels = await _hotelRepository.GetAllTopHotelsReview();
             return Ok(topHotels);
         }
 
+        [AllowAnonymous]
         [HttpGet("population/{populationId}")]
         public async Task<IActionResult> GetAllHotelsByPopulationId(int populationId, int page, int pageSize)
         {
@@ -47,6 +54,7 @@ namespace yado_backend.Controllers
             return Ok(hotels);
         }
 
+        [AllowAnonymous]
         [HttpGet("{populationId}/filter")]
         public async Task<ActionResult<IEnumerable<Hotel>>> GetHotelsByParameters(int populationId, [FromQuery] Parameter parameters)
         {
@@ -55,6 +63,7 @@ namespace yado_backend.Controllers
             return filteredHotels.ToList();
         }
 
+        [Authorize(Roles = "2")]
         [HttpPost]
         public async Task<IActionResult> InsertHotel(Hotel hotel)
         {
@@ -66,6 +75,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpPut("{uuid}")]
         public async Task<IActionResult> UpdateHotelByUuid(string uuid, Hotel hotel)
         {
@@ -77,6 +87,7 @@ namespace yado_backend.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpDelete("{uuid}")]
         public async Task<IActionResult> DeleteHotelByUuid(string uuid)
         {

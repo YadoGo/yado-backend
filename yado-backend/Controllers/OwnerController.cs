@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using yado_backend.Models;
 using yado_backend.Repositories;
 
@@ -15,13 +16,16 @@ namespace yado_backend.Controllers
             _ownerRepository = ownerRepository;
         }
 
+        [Authorize(Roles = "3")]
         [HttpGet]
+        [ResponseCache(CacheProfileName = "CacheProfile120sec")]
         public async Task<IActionResult> GetAllOwners()
         {
             var owners = await _ownerRepository.GetAllOwners();
             return Ok(owners);
         }
 
+        [Authorize(Roles = "2,3")]
         [HttpPost]
         public async Task<IActionResult> InsertOwner(Owner owner)
         {
@@ -33,6 +37,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "3")]
         [HttpDelete("{ownerId}")]
         public async Task<IActionResult> DeleteOwner(int ownerId)
         {

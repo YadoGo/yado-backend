@@ -1,19 +1,17 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace yado_backend.Models
 {
     public class Country
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        [StringLength(2)]
+        public required string Code { get; set; }
 
         [StringLength(50)]
         public string? Name { get; set; }
 
-        public List<State> States { get; set; } = new List<State>();
+        public List<Population> Populations { get; set; } = new List<Population>();
     }
 }
 

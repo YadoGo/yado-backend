@@ -19,7 +19,7 @@ namespace yado_backend.Models
         public required string Url { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [Column(TypeName = "varbinary(8000)")]
         public required string LogoImg { get; set; }
 
         public ICollection<Site> Sites { get; set; } = new List<Site>();

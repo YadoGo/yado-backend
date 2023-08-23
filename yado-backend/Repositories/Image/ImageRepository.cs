@@ -16,6 +16,14 @@ namespace yado_backend.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<IEnumerable<Image>> GetAllImagesByHotelUuid(string hotelUuid)
+        {
+            return await _dbContext.Images
+                .Where(img => img.HotelUuid == hotelUuid)
+                .OrderBy(img => img.Position)
+                .ToListAsync();
+        }
+
         public async Task<bool> InsertImage(Image image)
         {
             _dbContext.Images.Add(image);
@@ -23,9 +31,19 @@ namespace yado_backend.Repositories
             return result > 0;
         }
 
-        public async Task<IEnumerable<Image>> GetAllImagesByHotelUuid(string hotelUuid)
+        public async Task<bool> UpdateImagePositions(IEnumerable<Image> images)
         {
-            return await _dbContext.Images.Where(img => img.HotelUuid == hotelUuid).ToListAsync();
+            foreach (var image in images)
+            {
+                var existingImage = await _dbContext.Images.FindAsync(image.ID);
+                if (existingImage != null)
+                {
+                    existingImage.Position = image.Position;
+                }
+            }
+
+            var result = await _dbContext.SaveChangesAsync();
+            return result > 0;
         }
 
         public async Task<bool> DeleteImageById(int imageId)

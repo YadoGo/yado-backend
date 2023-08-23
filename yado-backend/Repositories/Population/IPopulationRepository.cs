@@ -6,6 +6,6 @@ namespace yado_backend.Repositories
 {
     public interface IPopulationRepository
     {
-        Task<IEnumerable<Population>> GetAllPopulations();
+        Task<IEnumerable<Population>> SearchPopulationsByCityName(string cityName);
     }
 }

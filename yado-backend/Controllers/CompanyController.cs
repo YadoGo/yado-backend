@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using yado_backend.Models;
 using yado_backend.Repositories;
 
@@ -15,13 +16,16 @@ namespace yado_backend.Controllers
             _companyRepository = companyRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet]
+        [ResponseCache(CacheProfileName = "CacheProfile1day")]
         public async Task<IActionResult> GetAllCompany()
         {
             var companies = await _companyRepository.GetAllCompany();
             return Ok(companies);
         }
 
+        [Authorize(Roles = "3")]
         [HttpPost]
         public async Task<IActionResult> InsertCompany([FromBody] Company company)
         {
@@ -32,6 +36,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "3")]
         [HttpPut("{companyId}")]
         public async Task<IActionResult> UpdateCompanyById(int companyId, [FromBody] Company company)
         {
@@ -42,6 +47,7 @@ namespace yado_backend.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "3")]
         [HttpDelete("{companyId}")]
         public async Task<IActionResult> DeleteCompanyById(int companyId)
         {

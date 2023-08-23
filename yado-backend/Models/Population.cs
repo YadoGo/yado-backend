@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace yado_backend.Models
@@ -14,10 +13,12 @@ namespace yado_backend.Models
         [StringLength(50)]
         public required string Name { get; set; }
 
-        [ForeignKey("State")]
-        public int StateId { get; set; }
+        [Required]
+        [StringLength(2)]
+        public required string CountryCode { get; set; }
 
-        public virtual required State State { get; set; }
+        [ForeignKey("CountryCode")]
+        public virtual required Country Country { get; set; }
 
         public List<Hotel> Hotels { get; set; } = new List<Hotel>();
 

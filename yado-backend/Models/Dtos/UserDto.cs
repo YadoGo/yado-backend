@@ -1,15 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel;
-using yado_backend.Repositories;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace yado_backend.Models
+namespace yado_backend.Models.Dtos
 {
-    public class User
-    {
+	public class UserDto
+	{
         [Required]
-        [Key]
         [StringLength(36)]
         public required string UUID { get; set; }
 
@@ -41,19 +40,9 @@ namespace yado_backend.Models
         [Column(TypeName = "varbinary(8000)")]
         public string? ImageProfile { get; set; }
 
-
-        [ForeignKey("Role")]
         [Range(1, 3, ErrorMessage = "Role ID must be between 1 and 3.")]
         [DefaultValue(1)]
-        public int? RoleId { get; set; }
-
-        public required Role Role { get; set; }
-
-        public virtual List<Owner> OwnedHotels { get; set; } = new List<Owner>();
-
-        public virtual List<Favorite> Favorites { get; set; } = new List<Favorite>();
-
-        public virtual List<Review> Reviews { get; set; } = new List<Review>();
+        public int RoleId { get; set; }
     }
 }
 

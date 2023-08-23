@@ -13,9 +13,11 @@ namespace yado_backend.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Population>> GetAllPopulations()
+        public async Task<IEnumerable<Population>> SearchPopulationsByCityName(string cityName)
         {
-            return await _dbContext.Populations.ToListAsync();
+            return await _dbContext.Populations
+                .Where(p => p.Name.StartsWith(cityName))
+                .ToListAsync();
         }
     }
 }

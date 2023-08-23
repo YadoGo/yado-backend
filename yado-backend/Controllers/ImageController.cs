@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using yado_backend.Models;
 using yado_backend.Repositories;
 
@@ -15,6 +16,16 @@ namespace yado_backend.Controllers
             _imageRepository = imageRepository;
         }
 
+        [AllowAnonymous]
+        [HttpGet("{hotelUuid}")]
+        [ResponseCache(CacheProfileName = "CacheProfile60sec")]
+        public async Task<IActionResult> GetAllImagesByHotelUuid(string hotelUuid)
+        {
+            var images = await _imageRepository.GetAllImagesByHotelUuid(hotelUuid);
+            return Ok(images);
+        }
+
+        [Authorize(Roles = "2")]
         [HttpPost]
         public async Task<IActionResult> InsertImage([FromBody] Image image)
         {
@@ -25,13 +36,18 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{hotelUuid}")]
-        public async Task<IActionResult> GetAllImagesByHotelUuid(string hotelUuid)
+        [Authorize(Roles = "2")]
+        [HttpPut("updateOrder")]
+        public async Task<IActionResult> UpdateImageOrder([FromBody] IEnumerable<Image> images)
         {
-            var images = await _imageRepository.GetAllImagesByHotelUuid(hotelUuid);
-            return Ok(images);
+            if (await _imageRepository.UpdateImagePositions(images))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpDelete("{imageId}")]
         public async Task<IActionResult> DeleteImageById(int imageId)
         {

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using yado_backend.Models.Dtos;
 using yado_backend.Repositories;
 
 namespace yado_backend.Controllers
@@ -14,11 +16,20 @@ namespace yado_backend.Controllers
             _populationRepository = populationRepository;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllPopulations()
+        [AllowAnonymous]
+        [HttpGet("search")]
+        [ResponseCache(Duration = 86400)]
+        public async Task<ActionResult<IEnumerable<PopulationDto>>> SearchPopulationsByCityName(string cityName)
         {
-            var populations = await _populationRepository.GetAllPopulations();
-            return Ok(populations);
+            var similarPopulations = await _populationRepository.SearchPopulationsByCityName(cityName);
+
+            var populationDtos = similarPopulations.Select(population => new PopulationDto
+            {
+                ID = population.ID,
+                Name = population.Name
+            });
+
+            return Ok(populationDtos);
         }
     }
 }

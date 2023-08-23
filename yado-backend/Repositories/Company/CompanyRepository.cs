@@ -31,7 +31,6 @@ namespace yado_backend.Repositories
             if (existingCompany != null)
             {
                 existingCompany.Name = company.Name;
-                // Update other properties...
 
                 var result = await _dbContext.SaveChangesAsync();
                 return result > 0;

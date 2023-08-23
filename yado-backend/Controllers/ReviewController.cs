@@ -17,20 +17,25 @@ namespace yado_backend.Controllers
             _reviewRepository = reviewRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("hotel/{hotelUuid}")]
+        [ResponseCache(CacheProfileName = "CacheProfile60sec")]
         public async Task<IActionResult> GetAllReviewsByHotelUuid(string hotelUuid)
         {
             var reviews = await _reviewRepository.GetAllReviewsByHotelUuid(hotelUuid);
             return Ok(reviews);
         }
 
+        [AllowAnonymous]
         [HttpGet("user/{userUuid}")]
+        [ResponseCache(CacheProfileName = "CacheProfile60sec")]
         public async Task<IActionResult> GetAllReviewsByUserUuid(string userUuid)
         {
             var reviews = await _reviewRepository.GetAllReviewsByUserUuid(userUuid);
             return Ok(reviews);
         }
 
+        [Authorize(Roles = "1, 2")]
         [HttpPost]
         public async Task<IActionResult> InsertReview(Review review)
         {
@@ -42,6 +47,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "2")]
         [HttpPut]
         public async Task<IActionResult> UpdateReview(Review review)
         {
@@ -53,6 +59,7 @@ namespace yado_backend.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpDelete("{reviewId}/{userUuid}")]
         public async Task<IActionResult> DeleteReview(int reviewId, string userUuid)
         {

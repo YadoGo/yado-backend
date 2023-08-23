@@ -11,12 +11,14 @@ namespace yado_backend.Models
 
         [Required]
         [Column(TypeName = "varbinary(8000)")]
-        [StringLength(50)]
         public string? ImagePath { get; set; }
 
         [Required]
         [StringLength(200)]
         public required string Description { get; set; }
+
+        [Required]
+        public int Position { get; set; }
 
         [Required]
         public required string HotelUuid { get; set; }

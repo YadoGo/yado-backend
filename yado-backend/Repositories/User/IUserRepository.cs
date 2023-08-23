@@ -1,6 +1,6 @@
 ﻿using System;
 using yado_backend.Models;
-
+using yado_backend.Models.Dtos;
 namespace yado_backend.Repositories
 {
 	public interface IUserRepository
@@ -9,9 +9,13 @@ namespace yado_backend.Repositories
 
         Task<User> GetUserDetails(string UUID);
 
-        Task<bool> InsertUser(User user);
+        bool IsUniqueUser(string user, string email);
 
-        Task<bool> UpdateUser(string UUID, User updatedUser);
+        Task<UserLoginReponseDto> Login(UserLoginDto userLoginDto);
+
+        Task<User> Register(UserRegisterDto userRegisterDto);
+
+        Task<bool> UpdateUser(string UUID, UserDetailsDto updatedUser);
 
         Task<bool> DeleteUserByUUID(string UUID);
     }
