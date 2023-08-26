@@ -8,18 +8,18 @@ namespace yado_backend.Models
 	{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public required string UserUuid { get; set; }
+        public required Guid UserId { get; set; }
 
         [Required]
-        public required string HotelUuid { get; set; }
+        public required Guid HotelId { get; set; }
 
-        [ForeignKey("UserUuid")]
+        [ForeignKey("UserId")]
         public required virtual User User { get; set; }
 
-        [ForeignKey("HotelUuid")]
+        [ForeignKey("HotelId")]
         public required virtual Hotel Hotel { get; set; }
 
     }

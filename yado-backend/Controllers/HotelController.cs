@@ -17,11 +17,11 @@ namespace yado_backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{uuid}")]
+        [HttpGet("{id}")]
         [ResponseCache(CacheProfileName = "CacheProfile120sec")]
-        public async Task<IActionResult> GetHotelByUuid(string uuid)
+        public async Task<IActionResult> GetHotelById(Guid id)
         {
-            var hotel = await _hotelRepository.GetHotelByUuid(uuid);
+            var hotel = await _hotelRepository.GetHotelById(id);
             if (hotel == null)
             {
                 return NotFound();
@@ -30,10 +30,10 @@ namespace yado_backend.Controllers
         }
 
         [Authorize(Roles = "2, 3")]
-        [HttpGet("owner/{ownerId}")]
-        public async Task<IActionResult> GetAllHotelsByOwnerId(string ownerId)
+        [HttpGet("owner/{userId}")]
+        public async Task<IActionResult> GetAllHotelsByOwnerId(Guid userId)
         {
-            var hotels = await _hotelRepository.GetAllHotelsByOwnerId(ownerId);
+            var hotels = await _hotelRepository.GetAllHotelsByUserId(userId);
             return Ok(hotels);
         }
 
@@ -76,10 +76,10 @@ namespace yado_backend.Controllers
         }
 
         [Authorize(Roles = "2, 3")]
-        [HttpPut("{uuid}")]
-        public async Task<IActionResult> UpdateHotelByUuid(string uuid, Hotel hotel)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateHotelById(Guid id, Hotel hotel)
         {
-            var success = await _hotelRepository.UpdateHotelByUuid(uuid, hotel);
+            var success = await _hotelRepository.UpdateHotelById(id, hotel);
             if (success)
             {
                 return Ok();
@@ -88,10 +88,10 @@ namespace yado_backend.Controllers
         }
 
         [Authorize(Roles = "2, 3")]
-        [HttpDelete("{uuid}")]
-        public async Task<IActionResult> DeleteHotelByUuid(string uuid)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteHotelById(Guid id)
         {
-            var success = await _hotelRepository.DeleteHotelByUuid(uuid);
+            var success = await _hotelRepository.DeleteHotelById(id);
             if (success)
             {
                 return Ok();

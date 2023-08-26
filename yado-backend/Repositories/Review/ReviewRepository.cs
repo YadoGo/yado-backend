@@ -13,14 +13,14 @@ namespace yado_backend.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Review>> GetAllReviewsByHotelUuid(string hotelUuid)
+        public async Task<IEnumerable<Review>> GetAllReviewsByHotelId(Guid hotelId)
         {
-            return await _dbContext.Reviews.Where(r => r.HotelUuid == hotelUuid).ToListAsync();
+            return await _dbContext.Reviews.Where(r => r.HotelId == hotelId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetAllReviewsByUserUuid(string userUuid)
+        public async Task<IEnumerable<Review>> GetAllReviewsByUserId(Guid userId)
         {
-            return await _dbContext.Reviews.Where(r => r.UserId == userUuid).ToListAsync();
+            return await _dbContext.Reviews.Where(r => r.UserId == userId).ToListAsync();
         }
 
         public async Task<bool> InsertReview(Review review)
@@ -32,7 +32,7 @@ namespace yado_backend.Repositories
 
         public async Task<bool> UpdateReviewById(Review review)
         {
-            var existingReview = await _dbContext.Reviews.FindAsync(review.ID);
+            var existingReview = await _dbContext.Reviews.FindAsync(review.Id);
             if (existingReview != null)
             {
                 existingReview.Qualification = review.Qualification;
@@ -45,10 +45,10 @@ namespace yado_backend.Repositories
             return false;
         }
 
-        public async Task<bool> DeleteReviewById(int reviewId, string userUuid)
+        public async Task<bool> DeleteReviewById(int reviewId, Guid userId)
         {
             var review = await _dbContext.Reviews.FirstOrDefaultAsync(r =>
-                r.ID == reviewId && r.UserId == userUuid);
+                r.Id == reviewId && r.UserId == userId);
 
             if (review != null)
             {

@@ -4,10 +4,10 @@ namespace yado_backend.Repositories
 {
     public interface IReviewRepository
     {
-        Task<IEnumerable<Review>> GetAllReviewsByHotelUuid(string hotelUuid);
-        Task<IEnumerable<Review>> GetAllReviewsByUserUuid(string userUuid);
+        Task<IEnumerable<Review>> GetAllReviewsByHotelId(Guid hotelId);
+        Task<IEnumerable<Review>> GetAllReviewsByUserId(Guid userId);
         Task<bool> InsertReview(Review review);
         Task<bool> UpdateReviewById(Review review);
-        Task<bool> DeleteReviewById(int reviewId, string userUuid);
+        Task<bool> DeleteReviewById(int reviewId, Guid userId);
     }
 }

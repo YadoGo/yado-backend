@@ -8,11 +8,11 @@ namespace yado_backend.Models
 	{
         [Key] 
         [StringLength(40)]
-        public required string UserUuid { get; set; }
+        public required Guid UserId { get; set; }
 
         [Key]
         [StringLength(255)]
-        public required string HotelUuid { get; set; }
+        public required Guid HotelId { get; set; }
 
         public required User User { get; set; }
         public required Hotel Hotel { get; set; }

@@ -10,8 +10,7 @@ namespace yado_backend.Models
     {
         [Required]
         [Key]
-        [StringLength(36)]
-        public required string UUID { get; set; }
+        public required Guid Id { get; set; }
 
         [Required]
         [StringLength(100)]

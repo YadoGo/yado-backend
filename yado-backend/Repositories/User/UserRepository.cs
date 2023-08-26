@@ -29,9 +29,9 @@ namespace yado_backend.Repositories
             return users;
         }
 
-        public async Task<User> GetUserDetails(string UUID)
+        public async Task<User> GetUserDetails(Guid id)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.UUID == UUID);
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public bool IsUniqueUser(string username, string email)
@@ -55,7 +55,7 @@ namespace yado_backend.Repositories
 
             User user = new()
             { 
-                UUID = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 Username = userRegisterDto.Username,
                 Email = userRegisterDto.Email,
                 Password = passwordEncrypt,
@@ -96,7 +96,7 @@ namespace yado_backend.Repositories
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Email, user.Email.ToString()),
-                    new Claim("UUID", user.UUID),
+                    new Claim("Id", user.Id.ToString()),
                     new Claim(ClaimTypes.Role, user.RoleId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
@@ -114,9 +114,9 @@ namespace yado_backend.Repositories
             return userLoginReponseDto;
         }
 
-        public async Task<bool> UpdateUser(string UUID, UserDetailsDto updatedUserDto)
+        public async Task<bool> UpdateUser(Guid id, UserDetailsDto updatedUserDto)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UUID == UUID);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user != null)
             {
                 user.Username = updatedUserDto.Username;
@@ -130,9 +130,9 @@ namespace yado_backend.Repositories
             return false;
         }
 
-        public async Task<bool> DeleteUserByUUID(string UUID)
+        public async Task<bool> DeleteUserById(Guid id)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UUID == UUID);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user != null)
             {
                 _dbContext.Users.Remove(user);
@@ -161,9 +161,10 @@ namespace yado_backend.Repositories
 
         private async Task<string> GetRoleNameByIdAsync(int roleId)
         {
-            var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.ID == roleId);
+            var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
             return role != null ? role.Name : null;
         }
+
     }
 }
 

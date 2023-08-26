@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using yado_backend.Data;
 using yado_backend.Repositories;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

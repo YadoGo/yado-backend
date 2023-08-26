@@ -20,15 +20,15 @@ namespace yado_backend.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Hotel> GetHotelByUuid(string uuid)
+        public async Task<Hotel> GetHotelById(Guid id)
         {
-            return await _dbContext.Hotels.FirstOrDefaultAsync(hotel => hotel.UUID == uuid);
+            return await _dbContext.Hotels.FirstOrDefaultAsync(hotel => hotel.Id == id);
         }
 
-        public async Task<IEnumerable<Hotel>> GetAllHotelsByOwnerId(string ownerId)
+        public async Task<IEnumerable<Hotel>> GetAllHotelsByUserId(Guid userId)
         {
             return await _dbContext.Hotels
-                .Where(hotel => hotel.Owners.Any(owner => owner.UserUuid == ownerId))
+                .Where(hotel => hotel.Owners.Any(owner => owner.UserId == userId))
                 .ToListAsync();
         }
 
@@ -109,9 +109,9 @@ namespace yado_backend.Repositories
             return result > 0;
         }
 
-        public async Task<bool> UpdateHotelByUuid(string uuid, Hotel updatedHotel)
+        public async Task<bool> UpdateHotelById(Guid id, Hotel updatedHotel)
         {
-            var existingHotel = await _dbContext.Hotels.FirstOrDefaultAsync(h => h.UUID == uuid);
+            var existingHotel = await _dbContext.Hotels.FirstOrDefaultAsync(h => h.Id == id);
             if (existingHotel != null)
             {
                 existingHotel.Name = updatedHotel.Name;
@@ -128,9 +128,9 @@ namespace yado_backend.Repositories
             return false;
         }
 
-        public async Task<bool> DeleteHotelByUuid(string uuid)
+        public async Task<bool> DeleteHotelById(Guid id)
         {
-            var hotel = await _dbContext.Hotels.FirstOrDefaultAsync(h => h.UUID == uuid);
+            var hotel = await _dbContext.Hotels.FirstOrDefaultAsync(h => h.Id == id);
             if (hotel != null)
             {
                 _dbContext.Hotels.Remove(hotel);

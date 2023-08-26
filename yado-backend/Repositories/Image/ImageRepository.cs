@@ -16,10 +16,10 @@ namespace yado_backend.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Image>> GetAllImagesByHotelUuid(string hotelUuid)
+        public async Task<IEnumerable<Image>> GetAllImagesByHotelId(Guid hotelId)
         {
             return await _dbContext.Images
-                .Where(img => img.HotelUuid == hotelUuid)
+                .Where(img => img.HotelId == hotelId)
                 .OrderBy(img => img.Position)
                 .ToListAsync();
         }
@@ -35,7 +35,7 @@ namespace yado_backend.Repositories
         {
             foreach (var image in images)
             {
-                var existingImage = await _dbContext.Images.FindAsync(image.ID);
+                var existingImage = await _dbContext.Images.FindAsync(image.Id);
                 if (existingImage != null)
                 {
                     existingImage.Position = image.Position;

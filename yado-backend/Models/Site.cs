@@ -1,6 +1,4 @@
-﻿using System;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace yado_backend.Models
@@ -9,7 +7,7 @@ namespace yado_backend.Models
 	{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(200)]
@@ -20,8 +18,7 @@ namespace yado_backend.Models
 
         [Required]
         [ForeignKey("Hotel")]
-        [StringLength(40)]
-        public required string HotelUuid { get; set; }
+        public required Guid HotelId { get; set; }
 
         [Required]
         public required Hotel Hotel { get; set; }

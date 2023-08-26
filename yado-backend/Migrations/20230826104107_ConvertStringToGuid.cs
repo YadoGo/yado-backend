@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace yado_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAllBaseEndpoints : Migration
+    public partial class ConvertStringToGuid : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,7 @@ namespace yado_backend.Migrations
                 name: "Companies",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -29,7 +29,7 @@ namespace yado_backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Companies", x => x.ID);
+                    table.PrimaryKey("PK_Companies", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -39,7 +39,7 @@ namespace yado_backend.Migrations
                 {
                     Code = table.Column<string>(type: "varchar(2)", maxLength: 2, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                    Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -52,7 +52,7 @@ namespace yado_backend.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -61,7 +61,7 @@ namespace yado_backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.ID);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -69,16 +69,16 @@ namespace yado_backend.Migrations
                 name: "Populations",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CountryCode = table.Column<string>(type: "varchar(2)", nullable: false)
+                    CountryCode = table.Column<string>(type: "varchar(2)", maxLength: 2, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Populations", x => x.ID);
+                    table.PrimaryKey("PK_Populations", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Populations_Countries_CountryCode",
                         column: x => x.CountryCode,
@@ -92,7 +92,8 @@ namespace yado_backend.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UUID = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Username = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -105,38 +106,16 @@ namespace yado_backend.Migrations
                     Gender = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ImageProfile = table.Column<byte[]>(type: "varbinary(8000)", nullable: true),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserName = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedUserName = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedEmail = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UUID);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -145,8 +124,7 @@ namespace yado_backend.Migrations
                 name: "Hotels",
                 columns: table => new
                 {
-                    UUID = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "varchar(1500)", maxLength: 1500, nullable: false)
@@ -162,12 +140,12 @@ namespace yado_backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Hotels", x => x.UUID);
+                    table.PrimaryKey("PK_Hotels", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Hotels_Populations_PopulationId",
                         column: x => x.PopulationId,
                         principalTable: "Populations",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -176,25 +154,23 @@ namespace yado_backend.Migrations
                 name: "Favorites",
                 columns: table => new
                 {
-                    UserUuid = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    HotelUuid = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    UserId = table.Column<Guid>(type: "char(40)", maxLength: 40, nullable: false, collation: "ascii_general_ci"),
+                    HotelId = table.Column<Guid>(type: "char(255)", maxLength: 255, nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favorites", x => new { x.UserUuid, x.HotelUuid });
+                    table.PrimaryKey("PK_Favorites", x => new { x.UserId, x.HotelId });
                     table.ForeignKey(
-                        name: "FK_Favorites_Hotels_HotelUuid",
-                        column: x => x.HotelUuid,
+                        name: "FK_Favorites_Hotels_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Favorites_Users_UserUuid",
-                        column: x => x.UserUuid,
+                        name: "FK_Favorites_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -203,23 +179,22 @@ namespace yado_backend.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ImagePath = table.Column<byte[]>(type: "varbinary(8000)", nullable: false),
                     Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Position = table.Column<int>(type: "int", nullable: false),
-                    HotelUuid = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    HotelId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Images", x => x.ID);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Images_Hotels_HotelUuid",
-                        column: x => x.HotelUuid,
+                        name: "FK_Images_Hotels_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -228,27 +203,25 @@ namespace yado_backend.Migrations
                 name: "Owners",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserUuid = table.Column<string>(type: "varchar(36)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    HotelUuid = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    HotelId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Owners", x => x.ID);
+                    table.PrimaryKey("PK_Owners", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Owners_Hotels_HotelUuid",
-                        column: x => x.HotelUuid,
+                        name: "FK_Owners_Hotels_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Owners_Users_UserUuid",
-                        column: x => x.UserUuid,
+                        name: "FK_Owners_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -257,8 +230,7 @@ namespace yado_backend.Migrations
                 name: "Parameters",
                 columns: table => new
                 {
-                    HotelUuid = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    HotelId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     BicycleRental = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Solarium = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     GolfCourse = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -308,12 +280,12 @@ namespace yado_backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Parameters", x => x.HotelUuid);
+                    table.PrimaryKey("PK_Parameters", x => x.HotelId);
                     table.ForeignKey(
-                        name: "FK_Parameters_Hotels_HotelUuid",
-                        column: x => x.HotelUuid,
+                        name: "FK_Parameters_Hotels_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -322,32 +294,30 @@ namespace yado_backend.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Qualification = table.Column<float>(type: "float", nullable: false),
                     PositiveComment = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NegativeComment = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<string>(type: "varchar(36)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    HotelUuid = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    HotelId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reviews", x => x.ID);
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Hotels_HotelUuid",
-                        column: x => x.HotelUuid,
+                        name: "FK_Reviews_Hotels_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reviews_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -356,37 +326,36 @@ namespace yado_backend.Migrations
                 name: "Sites",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     OriginUrl = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NightlyPrice = table.Column<float>(type: "float", nullable: false),
-                    HotelUuid = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    HotelId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CompanyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sites", x => x.ID);
+                    table.PrimaryKey("PK_Sites", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Sites_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Sites_Hotels_HotelUuid",
-                        column: x => x.HotelUuid,
+                        name: "FK_Sites_Hotels_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "UUID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favorites_HotelUuid",
+                name: "IX_Favorites_HotelId",
                 table: "Favorites",
-                column: "HotelUuid");
+                column: "HotelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hotels_PopulationId",
@@ -394,19 +363,19 @@ namespace yado_backend.Migrations
                 column: "PopulationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Images_HotelUuid",
+                name: "IX_Images_HotelId",
                 table: "Images",
-                column: "HotelUuid");
+                column: "HotelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Owners_HotelUuid",
+                name: "IX_Owners_HotelId",
                 table: "Owners",
-                column: "HotelUuid");
+                column: "HotelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Owners_UserUuid",
+                name: "IX_Owners_UserId",
                 table: "Owners",
-                column: "UserUuid");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Populations_CountryCode",
@@ -414,9 +383,9 @@ namespace yado_backend.Migrations
                 column: "CountryCode");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_HotelUuid",
+                name: "IX_Reviews_HotelId",
                 table: "Reviews",
-                column: "HotelUuid");
+                column: "HotelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserId",
@@ -429,9 +398,9 @@ namespace yado_backend.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sites_HotelUuid",
+                name: "IX_Sites_HotelId",
                 table: "Sites",
-                column: "HotelUuid");
+                column: "HotelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",

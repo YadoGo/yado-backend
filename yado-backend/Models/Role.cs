@@ -6,7 +6,7 @@ namespace yado_backend.Models
     {
         [Required]
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(50)]

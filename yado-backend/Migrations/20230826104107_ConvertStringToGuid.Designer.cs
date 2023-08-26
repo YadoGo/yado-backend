@@ -11,8 +11,8 @@ using yado_backend.Data;
 namespace yado_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230819160018_FixForeignKeyPopulation")]
-    partial class FixForeignKeyPopulation
+    [Migration("20230826104107_ConvertStringToGuid")]
+    partial class ConvertStringToGuid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Company", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -42,7 +42,7 @@ namespace yado_backend.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Companies");
                 });
@@ -54,6 +54,7 @@ namespace yado_backend.Migrations
                         .HasColumnType("varchar(2)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
@@ -64,25 +65,26 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Favorite", b =>
                 {
-                    b.Property<string>("UserUuid")
+                    b.Property<Guid>("UserId")
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40)");
+                        .HasColumnType("char(40)");
 
-                    b.Property<string>("HotelUuid")
+                    b.Property<Guid>("HotelId")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("char(255)");
 
-                    b.HasKey("UserUuid", "HotelUuid");
+                    b.HasKey("UserId", "HotelId");
 
-                    b.HasIndex("HotelUuid");
+                    b.HasIndex("HotelId");
 
                     b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("yado_backend.Models.Hotel", b =>
                 {
-                    b.Property<string>("UUID")
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -117,7 +119,7 @@ namespace yado_backend.Migrations
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
-                    b.HasKey("UUID");
+                    b.HasKey("Id");
 
                     b.HasIndex("PopulationId");
 
@@ -126,7 +128,7 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Image", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -135,9 +137,8 @@ namespace yado_backend.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.Property<string>("HotelUuid")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("char(36)");
 
                     b.Property<byte[]>("ImagePath")
                         .IsRequired()
@@ -146,40 +147,38 @@ namespace yado_backend.Migrations
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("HotelUuid");
+                    b.HasIndex("HotelId");
 
                     b.ToTable("Images");
                 });
 
             modelBuilder.Entity("yado_backend.Models.Owner", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("HotelUuid")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<string>("UserUuid")
-                        .IsRequired()
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("HotelUuid");
+                    b.HasIndex("HotelId");
 
-                    b.HasIndex("UserUuid");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Owners");
                 });
 
             modelBuilder.Entity("yado_backend.Models.Parameter", b =>
                 {
-                    b.Property<string>("HotelUuid")
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("char(36)");
 
                     b.Property<bool>("AeroportSchuttle")
                         .HasColumnType("tinyint(1)");
@@ -319,14 +318,14 @@ namespace yado_backend.Migrations
                     b.Property<bool>("WheelchairAccessible")
                         .HasColumnType("tinyint(1)");
 
-                    b.HasKey("HotelUuid");
+                    b.HasKey("HotelId");
 
                     b.ToTable("Parameters");
                 });
 
             modelBuilder.Entity("yado_backend.Models.Population", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -340,7 +339,7 @@ namespace yado_backend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("CountryCode");
 
@@ -349,13 +348,12 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Review", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("HotelUuid")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("NegativeComment")
                         .IsRequired()
@@ -370,13 +368,12 @@ namespace yado_backend.Migrations
                     b.Property<float>("Qualification")
                         .HasColumnType("float");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("HotelUuid");
+                    b.HasIndex("HotelId");
 
                     b.HasIndex("UserId");
 
@@ -385,7 +382,7 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Role", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -399,24 +396,22 @@ namespace yado_backend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("yado_backend.Models.Site", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("HotelUuid")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("varchar(40)");
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("char(36)");
 
                     b.Property<float>("NightlyPrice")
                         .HasColumnType("float");
@@ -426,34 +421,25 @@ namespace yado_backend.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("HotelUuid");
+                    b.HasIndex("HotelId");
 
                     b.ToTable("Sites");
                 });
 
             modelBuilder.Entity("yado_backend.Models.User", b =>
                 {
-                    b.Property<string>("UUID")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("longtext");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -464,10 +450,6 @@ namespace yado_backend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Id")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<byte[]>("ImageProfile")
                         .HasColumnType("varbinary(8000)");
 
@@ -476,46 +458,21 @@ namespace yado_backend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<int?>("RoleId")
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("UUID");
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
@@ -526,13 +483,13 @@ namespace yado_backend.Migrations
                 {
                     b.HasOne("yado_backend.Models.Hotel", "Hotel")
                         .WithMany("Favorites")
-                        .HasForeignKey("HotelUuid")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("yado_backend.Models.User", "User")
                         .WithMany("Favorites")
-                        .HasForeignKey("UserUuid")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -556,7 +513,7 @@ namespace yado_backend.Migrations
                 {
                     b.HasOne("yado_backend.Models.Hotel", "Hotel")
                         .WithMany("Images")
-                        .HasForeignKey("HotelUuid")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -567,13 +524,13 @@ namespace yado_backend.Migrations
                 {
                     b.HasOne("yado_backend.Models.Hotel", "Hotel")
                         .WithMany("Owners")
-                        .HasForeignKey("HotelUuid")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("yado_backend.Models.User", "User")
                         .WithMany("OwnedHotels")
-                        .HasForeignKey("UserUuid")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -586,7 +543,7 @@ namespace yado_backend.Migrations
                 {
                     b.HasOne("yado_backend.Models.Hotel", "Hotel")
                         .WithOne("Parameters")
-                        .HasForeignKey("yado_backend.Models.Parameter", "HotelUuid")
+                        .HasForeignKey("yado_backend.Models.Parameter", "HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -608,7 +565,7 @@ namespace yado_backend.Migrations
                 {
                     b.HasOne("yado_backend.Models.Hotel", "Hotel")
                         .WithMany("Reviews")
-                        .HasForeignKey("HotelUuid")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -633,7 +590,7 @@ namespace yado_backend.Migrations
 
                     b.HasOne("yado_backend.Models.Hotel", "Hotel")
                         .WithMany("Sites")
-                        .HasForeignKey("HotelUuid")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -13,10 +13,10 @@ namespace yado_backend.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Site>> GetAllSitesByHotelUuid(string hotelUuid)
+        public async Task<IEnumerable<Site>> GetAllSitesByHotelId(Guid hotelId)
         {
             return await _dbContext.Sites
-                .Where(site => site.HotelUuid == hotelUuid)
+                .Where(site => site.HotelId == hotelId)
                 .ToListAsync();
         }
 
@@ -42,7 +42,7 @@ namespace yado_backend.Repositories
 
         public async Task<bool> UpdateSiteById(Site site)
         {
-            var existingSite = await _dbContext.Sites.FindAsync(site.ID);
+            var existingSite = await _dbContext.Sites.FindAsync(site.Id);
             if (existingSite != null)
             {
                 existingSite.OriginUrl = site.OriginUrl;

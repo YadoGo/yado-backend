@@ -8,7 +8,7 @@ namespace yado_backend.Models
 	{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public float Qualification { get; set; }
 
@@ -20,15 +20,15 @@ namespace yado_backend.Models
         public required string NegativeComment { get; set; }
 
         [Required]
-        public required string UserId { get; set; }
+        public required Guid UserId { get; set; }
 
         [ForeignKey("UserId")]
         public required User User { get; set; }
 
         [Required]
-        public required string HotelUuid { get; set; }
+        public required Guid HotelId { get; set; }
 
-        [ForeignKey("HotelUuid")]
+        [ForeignKey("HotelId")]
         public required Hotel Hotel { get; set; }
     }
 }

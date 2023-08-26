@@ -7,11 +7,11 @@ namespace yado_backend.Models
 	{
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Column(TypeName = "varbinary(8000)")]
-        public string? ImagePath { get; set; }
+        public required string ImagePath { get; set; }
 
         [Required]
         [StringLength(200)]
@@ -21,9 +21,9 @@ namespace yado_backend.Models
         public int Position { get; set; }
 
         [Required]
-        public required string HotelUuid { get; set; }
+        public required Guid HotelId { get; set; }
 
-        [ForeignKey("HotelUuid")]
+        [ForeignKey("HotelId")]
         public required Hotel Hotel { get; set; }
     }
 }

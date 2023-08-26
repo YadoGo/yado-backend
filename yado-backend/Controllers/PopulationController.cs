@@ -25,7 +25,7 @@ namespace yado_backend.Controllers
 
             var populationDtos = similarPopulations.Select(population => new PopulationDto
             {
-                ID = population.ID,
+                Id = population.Id,
                 Name = population.Name
             });
 

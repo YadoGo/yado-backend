@@ -146,9 +146,9 @@ namespace yado_backend.Models
         public bool VisualAidsTactileSigns { get; set; }
 
         [Required]
-        public required string HotelUuid { get; set; }
+        public required Guid HotelId { get; set; }
 
-        [Key, ForeignKey("HotelUuid")]
+        [Key, ForeignKey("HotelId")]
         public required Hotel Hotel { get; set; }
     }
 }

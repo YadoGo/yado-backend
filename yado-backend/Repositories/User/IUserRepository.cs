@@ -7,7 +7,7 @@ namespace yado_backend.Repositories
 	{
         Task<IEnumerable<User>> GetAllUsers();
 
-        Task<User> GetUserDetails(string UUID);
+        Task<User> GetUserDetails(Guid id);
 
         bool IsUniqueUser(string user, string email);
 
@@ -15,9 +15,9 @@ namespace yado_backend.Repositories
 
         Task<User> Register(UserRegisterDto userRegisterDto);
 
-        Task<bool> UpdateUser(string UUID, UserDetailsDto updatedUser);
+        Task<bool> UpdateUser(Guid id, UserDetailsDto updatedUser);
 
-        Task<bool> DeleteUserByUUID(string UUID);
+        Task<bool> DeleteUserById(Guid id);
     }
 }
 

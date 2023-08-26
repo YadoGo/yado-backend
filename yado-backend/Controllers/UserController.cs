@@ -37,10 +37,10 @@ namespace yado_backend.Controllers
         }
 
         [Authorize(Roles = "2, 3")]
-        [HttpGet("{UUID}")]
-        public async Task<IActionResult> GetUserDetails(string UUID)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserDetails(Guid id)
         {
-            var user = await _userRepository.GetUserDetails(UUID);
+            var user = await _userRepository.GetUserDetails(id);
             if (user == null)
             {
                 return NotFound();
@@ -101,15 +101,15 @@ namespace yado_backend.Controllers
         }
 
         [Authorize(Roles = "2, 3")]
-        [HttpPut("{UUID}")]
-        public async Task<IActionResult> UpdateUser(string UUID, [FromBody] UserDetailsDto updatedUser)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserDetailsDto updatedUser)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var success = await _userRepository.UpdateUser(UUID, updatedUser);
+            var success = await _userRepository.UpdateUser(id, updatedUser);
             if (success)
             {
                 return NoContent();
@@ -119,10 +119,10 @@ namespace yado_backend.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{UUID}")]
-        public async Task<IActionResult> DeleteUser(string UUID)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var success = await _userRepository.DeleteUserByUUID(UUID);
+            var success = await _userRepository.DeleteUserById(id);
             if (success)
             {
                 return NoContent();

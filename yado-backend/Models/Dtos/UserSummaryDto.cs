@@ -2,7 +2,7 @@
 {
     public class UserSummaryDto
     {
-        public required string UUID { get; set; }
+        public required Guid Id { get; set; }
         public required string Username { get; set; }
         public required string Email { get; set; }
         public required string Gender { get; set; }

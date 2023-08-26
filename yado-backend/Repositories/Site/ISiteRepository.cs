@@ -6,7 +6,7 @@ namespace yado_backend.Repositories
 {
     public interface ISiteRepository
     {
-        Task<IEnumerable<Site>> GetAllSitesByHotelUuid(string hotelUuid);
+        Task<IEnumerable<Site>> GetAllSitesByHotelId(Guid hotelId);
 
         Task<bool> InsertSite(Site site);
 

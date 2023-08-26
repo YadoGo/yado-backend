@@ -54,32 +54,32 @@ namespace yado_backend.Data
             modelBuilder.Entity<Owner>()
                 .HasOne(owner => owner.User)
                 .WithMany(user => user.OwnedHotels)
-                .HasForeignKey(owner => owner.UserUuid)
+                .HasForeignKey(owner => owner.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Owner>()
                 .HasOne(owner => owner.Hotel)
                 .WithMany(hotel => hotel.Owners)
-                .HasForeignKey(owner => owner.HotelUuid)
+                .HasForeignKey(owner => owner.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Favorite>()
-                .HasKey(favorite => new { favorite.UserUuid, favorite.HotelUuid });
+                .HasKey(favorite => new { favorite.UserId, favorite.HotelId });
 
             modelBuilder.Entity<Favorite>()
                 .HasOne(favorite => favorite.User)
                 .WithMany(user => user.Favorites)
-                .HasForeignKey(favorite => favorite.UserUuid)
+                .HasForeignKey(favorite => favorite.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Favorite>()
                 .HasOne(favorite => favorite.Hotel)
                 .WithMany(hotel => hotel.Favorites)
-                .HasForeignKey(favorite => favorite.HotelUuid)
+                .HasForeignKey(favorite => favorite.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Review>()
-                .HasKey(review => new { review.ID });
+                .HasKey(review => new { review.Id });
 
             modelBuilder.Entity<Review>()
                 .HasOne(review => review.User)
@@ -90,25 +90,25 @@ namespace yado_backend.Data
             modelBuilder.Entity<Review>()
                 .HasOne(review => review.Hotel)
                 .WithMany(hotel => hotel.Reviews)
-                .HasForeignKey(review => review.HotelUuid)
+                .HasForeignKey(review => review.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Image>()
-                .HasKey(image => new { image.ID });
+                .HasKey(image => new { image.Id });
 
             modelBuilder.Entity<Image>()
                 .HasOne(image => image.Hotel)
                 .WithMany(hotel => hotel.Images)
-                .HasForeignKey(image => image.HotelUuid)
+                .HasForeignKey(image => image.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Site>()
-                .HasKey(site => new { site.ID });
+                .HasKey(site => new { site.Id });
 
             modelBuilder.Entity<Site>()
                 .HasOne(site => site.Hotel)
                 .WithMany(hotel => hotel.Sites)
-                .HasForeignKey(site => site.HotelUuid)
+                .HasForeignKey(site => site.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Site>()
@@ -118,12 +118,12 @@ namespace yado_backend.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Parameter>()
-                .HasKey(parameter => parameter.HotelUuid);
+                .HasKey(parameter => parameter.HotelId);
 
             modelBuilder.Entity<Parameter>()
                 .HasOne(parameter => parameter.Hotel)
                 .WithOne(hotel => hotel.Parameters)
-                .HasForeignKey<Parameter>(parameter => parameter.HotelUuid)
+                .HasForeignKey<Parameter>(parameter => parameter.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 

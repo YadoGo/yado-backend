@@ -27,7 +27,7 @@ namespace yado_backend.Repositories
 
         public async Task<bool> UpdateCompanyById(int companyId, Company company)
         {
-            var existingCompany = await _dbContext.Companies.FirstOrDefaultAsync(c => c.ID == companyId);
+            var existingCompany = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
             if (existingCompany != null)
             {
                 existingCompany.Name = company.Name;

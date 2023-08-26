@@ -16,14 +16,14 @@ namespace yado_backend.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Favorite>> GetAllFavoritesByUserUuid(string userUuid)
+        public async Task<IEnumerable<Favorite>> GetAllFavoritesByUserId(Guid userId)
         {
-            return await _dbContext.Favorites.Where(f => f.UserUuid == userUuid).ToListAsync();
+            return await _dbContext.Favorites.Where(f => f.UserId == userId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Favorite>> GetAllFavoritesByHotelUuid(string hotelUuid)
+        public async Task<IEnumerable<Favorite>> GetAllFavoritesByHotelId(Guid hotelId)
         {
-            return await _dbContext.Favorites.Where(f => f.HotelUuid == hotelUuid).ToListAsync();
+            return await _dbContext.Favorites.Where(f => f.HotelId == hotelId).ToListAsync();
         }
 
         public async Task<bool> InsertFavorite(Favorite favorite)
@@ -33,10 +33,10 @@ namespace yado_backend.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteFavorite(string userUuid, string hotelUuid)
+        public async Task<bool> DeleteFavorite(Guid userId, Guid hotelId)
         {
             var favorite = await _dbContext.Favorites.FirstOrDefaultAsync(f =>
-                f.UserUuid == userUuid && f.HotelUuid == hotelUuid);
+                f.UserId == userId && f.HotelId == hotelId);
 
             if (favorite != null)
             {

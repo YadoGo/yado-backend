@@ -17,11 +17,11 @@ namespace yado_backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{hotelUuid}")]
+        [HttpGet("{hotelId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
-        public async Task<IActionResult> GetAllSitesByHotelUuid(string hotelUuid)
+        public async Task<IActionResult> GetAllSitesByHotelId(Guid hotelId)
         {
-            var sites = await _siteRepository.GetAllSitesByHotelUuid(hotelUuid);
+            var sites = await _siteRepository.GetAllSitesByHotelId(hotelId);
             return Ok(sites);
         }
 

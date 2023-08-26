@@ -6,9 +6,9 @@ namespace yado_backend.Repositories
 {
     public interface IFavoriteRepository
     {
-        Task<IEnumerable<Favorite>> GetAllFavoritesByUserUuid(string userUuid);
-        Task<IEnumerable<Favorite>> GetAllFavoritesByHotelUuid(string hotelUuid);
+        Task<IEnumerable<Favorite>> GetAllFavoritesByUserId(Guid userId);
+        Task<IEnumerable<Favorite>> GetAllFavoritesByHotelId(Guid hotelId);
         Task<bool> InsertFavorite(Favorite favorite);
-        Task<bool> DeleteFavorite(string userUuid, string hotelUuid);
+        Task<bool> DeleteFavorite(Guid userId, Guid hotelId);
     }
 }

@@ -18,20 +18,20 @@ namespace yado_backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("hotel/{hotelUuid}")]
+        [HttpGet("hotel/{hotelId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
-        public async Task<IActionResult> GetAllReviewsByHotelUuid(string hotelUuid)
+        public async Task<IActionResult> GetAllReviewsByHotelId(Guid hotelId)
         {
-            var reviews = await _reviewRepository.GetAllReviewsByHotelUuid(hotelUuid);
+            var reviews = await _reviewRepository.GetAllReviewsByHotelId(hotelId);
             return Ok(reviews);
         }
 
         [AllowAnonymous]
-        [HttpGet("user/{userUuid}")]
+        [HttpGet("user/{userId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
-        public async Task<IActionResult> GetAllReviewsByUserUuid(string userUuid)
+        public async Task<IActionResult> GetAllReviewsByUserId(Guid userId)
         {
-            var reviews = await _reviewRepository.GetAllReviewsByUserUuid(userUuid);
+            var reviews = await _reviewRepository.GetAllReviewsByUserId(userId);
             return Ok(reviews);
         }
 
@@ -60,10 +60,10 @@ namespace yado_backend.Controllers
         }
 
         [Authorize(Roles = "2, 3")]
-        [HttpDelete("{reviewId}/{userUuid}")]
-        public async Task<IActionResult> DeleteReview(int reviewId, string userUuid)
+        [HttpDelete("{reviewId}/{userId}")]
+        public async Task<IActionResult> DeleteReview(int reviewId, Guid userId)
         {
-            var success = await _reviewRepository.DeleteReviewById(reviewId, userUuid);
+            var success = await _reviewRepository.DeleteReviewById(reviewId, userId);
             if (success)
             {
                 return Ok();

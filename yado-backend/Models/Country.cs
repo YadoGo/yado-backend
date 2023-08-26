@@ -9,7 +9,7 @@ namespace yado_backend.Models
         public required string Code { get; set; }
 
         [StringLength(50)]
-        public string? Name { get; set; }
+        public required string Name { get; set; }
 
         public List<Population> Populations { get; set; } = new List<Population>();
     }

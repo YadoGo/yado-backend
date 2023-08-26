@@ -8,7 +8,7 @@ namespace yado_backend.Models
 	{
         [Key]
         [Required]
-        public required string UUID { get; set; }
+        public required Guid Id { get; set; }
 
         [Required]
         [StringLength(50)]

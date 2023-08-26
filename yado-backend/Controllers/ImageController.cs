@@ -17,11 +17,11 @@ namespace yado_backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{hotelUuid}")]
+        [HttpGet("{hotelId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
-        public async Task<IActionResult> GetAllImagesByHotelUuid(string hotelUuid)
+        public async Task<IActionResult> GetAllImagesByHotelId(Guid hotelId)
         {
-            var images = await _imageRepository.GetAllImagesByHotelUuid(hotelUuid);
+            var images = await _imageRepository.GetAllImagesByHotelId(hotelId);
             return Ok(images);
         }
 

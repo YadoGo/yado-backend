@@ -18,20 +18,20 @@ namespace yado_backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("user/{userUuid}")]
+        [HttpGet("user/{userId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
-        public async Task<IActionResult> GetAllFavoritesByUserUuid(string userUuid)
+        public async Task<IActionResult> GetAllFavoritesByUserId(Guid userId)
         {
-            var favorites = await _favoriteRepository.GetAllFavoritesByUserUuid(userUuid);
+            var favorites = await _favoriteRepository.GetAllFavoritesByUserId(userId);
             return Ok(favorites);
         }
 
         [Authorize(Roles = "2,3")]
-        [HttpGet("hotel/{hotelUuid}")]
+        [HttpGet("hotel/{hotelId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
-        public async Task<IActionResult> GetAllFavoritesByHotelUuid(string hotelUuid)
+        public async Task<IActionResult> GetAllFavoritesByHotelId(Guid hotelId)
         {
-            var favorites = await _favoriteRepository.GetAllFavoritesByHotelUuid(hotelUuid);
+            var favorites = await _favoriteRepository.GetAllFavoritesByHotelId(hotelId);
             return Ok(favorites);
         }
 
@@ -48,10 +48,10 @@ namespace yado_backend.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{userUuid}/{hotelUuid}")]
-        public async Task<IActionResult> DeleteFavorite(string userUuid, string hotelUuid)
+        [HttpDelete("{userId}/{hotelId}")]
+        public async Task<IActionResult> DeleteFavorite(Guid userId, Guid hotelId)
         {
-            var success = await _favoriteRepository.DeleteFavorite(userUuid, hotelUuid);
+            var success = await _favoriteRepository.DeleteFavorite(userId, hotelId);
             if (success)
             {
                 return Ok();
