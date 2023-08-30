@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using yado_backend.Models;
 using yado_backend.Models.Dtos;
@@ -36,7 +37,7 @@ namespace yado_backend.Controllers
             return Ok(userSummaryDtos);
         }
 
-        [Authorize(Roles = "2, 3")]
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserDetails(Guid id)
         {

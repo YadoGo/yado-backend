@@ -6,8 +6,9 @@ using Microsoft.OpenApi.Models;
 using yado_backend.Data;
 using yado_backend.Repositories;
 
-
 var builder = WebApplication.CreateBuilder(args);
+
+DotNetEnv.Env.Load();
 
 // Add services to the container.
 
@@ -69,7 +70,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddResponseCaching();
 
 // Configure Authorize
-var key = builder.Configuration.GetValue<string>("ApiSettings:SecretKey");
+var key = Environment.GetEnvironmentVariable("SecretKey");
 
 builder.Services.AddAuthentication(x =>
 {
@@ -107,7 +108,18 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 
 // Configure CORS
-var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").GetChildren().Select(item => item.Value).ToArray();
+var allowedOriginsLocalhost = Environment.GetEnvironmentVariable("Localhost");
+var allowedOriginsDevelop = Environment.GetEnvironmentVariable("Develop");
+var allowedOriginsMain = Environment.GetEnvironmentVariable("Main");
+
+var allowedOrigins = new string[]
+{
+    allowedOriginsLocalhost,
+    allowedOriginsDevelop,
+    allowedOriginsMain
+};
+
+
 builder.Services.AddCors(P => P.AddPolicy("PolicyCors", build =>
 {
     build.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader();

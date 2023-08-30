@@ -26,6 +26,7 @@
     <PackageReference Include="XAct.Core.PCL" Version="0.0.5014" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="XAct.Security" Version="1.1.17040.3290" />
+    <PackageReference Include="DotNetEnv" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,5 +61,9 @@
     <Folder Include="Repositories\Company\" />
     <Folder Include="Models\Dtos\" />
     <Folder Include="Mapper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="appsettings.json" />
+    <Content Remove="appsettings.Development.json" />
   </ItemGroup>
 </Project>

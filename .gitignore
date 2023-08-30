@@ -5,4 +5,4 @@
 ./yado-backend/obj/
 ./yado-backend/bin/
 
-./yado-backend/appsettings*
+yado-backend/.env

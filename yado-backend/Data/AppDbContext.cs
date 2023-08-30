@@ -7,12 +7,10 @@ namespace yado_backend.Data
     public class AppDbContext : DbContext
     {
 
-        private readonly IConfiguration configuration;
 
-        public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-            this.configuration = configuration;
         }
 
         public DbSet<Role> Roles { get; set; }
@@ -129,10 +127,14 @@ namespace yado_backend.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = configuration.GetConnectionString("MySqlConnection");
-            var serverVersion = new MySqlServerVersion(new Version(10, 11, 2));
+            var server = Environment.GetEnvironmentVariable("MySql_Server");
+            var user = Environment.GetEnvironmentVariable("MySql_User");
+            var password = Environment.GetEnvironmentVariable("MySql_Password");
+            var database = Environment.GetEnvironmentVariable("MySql_Database");
 
-            optionsBuilder.UseMySql(connectionString, serverVersion);
+            var connectionString = $"server={server};user={user};password={password};database={database}";
+
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
     }
 }
