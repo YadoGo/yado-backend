@@ -33,9 +33,6 @@ namespace yado_backend.Models.Dtos
         [StringLength(50)]
         public required string Password { get; set; }
 
-        [StringLength(50)]
-        public string? Gender { get; set; }
-
         [Column(TypeName = "varbinary(8000)")]
         public string? ImageProfile { get; set; }
 

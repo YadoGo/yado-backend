@@ -101,7 +101,7 @@ namespace yado_backend.Controllers
             return Ok(loginResponse);
         }
 
-        [Authorize(Roles = "2, 3")]
+        [Authorize(Roles = "1,2,3")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserDetailsDto updatedUser)
         {

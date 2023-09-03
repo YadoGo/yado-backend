@@ -17,10 +17,10 @@ namespace yado_backend.Repositories
         private string secretKey;
 
 
-        public UserRepository(AppDbContext dbContext, IConfiguration configuration)
+        public UserRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
-            secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
+            secretKey = Environment.GetEnvironmentVariable("SecretKey");
         }
 
         public async Task<IEnumerable<User>> GetAllUsers()
@@ -122,7 +122,6 @@ namespace yado_backend.Repositories
                 user.Username = updatedUserDto.Username;
                 user.FirstName = updatedUserDto.FirstName;
                 user.LastName = updatedUserDto.LastName;
-                user.Gender = updatedUserDto.Gender;
 
                 var result = await _dbContext.SaveChangesAsync();
                 return result > 0;
@@ -146,7 +145,7 @@ namespace yado_backend.Repositories
         public static string EncryptPasswordWithMD5(string password)
         {
             MD5CryptoServiceProvider x = new();
-
+            
             byte[] data = System.Text.Encoding.UTF8.GetBytes(password);
             data = x.ComputeHash(data);
 
@@ -158,13 +157,6 @@ namespace yado_backend.Repositories
 
             return resp;
         }
-
-        private async Task<string> GetRoleNameByIdAsync(int roleId)
-        {
-            var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
-            return role != null ? role.Name : null;
-        }
-
     }
 }
 
