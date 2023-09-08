@@ -28,7 +28,7 @@ namespace yado_backend.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteSiteById(int siteId)
+        public async Task<bool> DeleteSiteById(Guid siteId)
         {
             var site = await _dbContext.Sites.FindAsync(siteId);
             if (site != null)

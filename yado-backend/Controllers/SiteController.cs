@@ -25,7 +25,7 @@ namespace yado_backend.Controllers
             return Ok(sites);
         }
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "Hotel Manager")]
         [HttpPost]
         public async Task<IActionResult> InsertSite(Site site)
         {
@@ -37,7 +37,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "Hotel Manager")]
         [HttpPut]
         public async Task<IActionResult> UpdateSiteById(Site site)
         {
@@ -49,9 +49,9 @@ namespace yado_backend.Controllers
             return NotFound();
         }
 
-        [Authorize(Roles = "2, 3")]
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpDelete("{siteId}")]
-        public async Task<IActionResult> DeleteSiteById(int siteId)
+        public async Task<IActionResult> DeleteSiteById(Guid siteId)
         {
             var success = await _siteRepository.DeleteSiteById(siteId);
             if (success)

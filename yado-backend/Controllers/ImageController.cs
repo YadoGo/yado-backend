@@ -25,7 +25,7 @@ namespace yado_backend.Controllers
             return Ok(images);
         }
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "Hotel Manager")]
         [HttpPost]
         public async Task<IActionResult> InsertImage([FromBody] Image image)
         {
@@ -36,7 +36,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "Hotel Manager")]
         [HttpPut("updateOrder")]
         public async Task<IActionResult> UpdateImageOrder([FromBody] IEnumerable<Image> images)
         {
@@ -47,9 +47,9 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "2, 3")]
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpDelete("{imageId}")]
-        public async Task<IActionResult> DeleteImageById(int imageId)
+        public async Task<IActionResult> DeleteImageById(Guid imageId)
         {
             if (await _imageRepository.DeleteImageById(imageId))
             {

@@ -46,7 +46,7 @@ namespace yado_backend.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteImageById(int imageId)
+        public async Task<bool> DeleteImageById(Guid imageId)
         {
             var image = await _dbContext.Images.FindAsync(imageId);
             if (image != null)

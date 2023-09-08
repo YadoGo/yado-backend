@@ -25,7 +25,7 @@ namespace yado_backend.Controllers
             this._responseAPI = new();
         }
 
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
         public async Task<IActionResult> GetAllUsers()
@@ -101,7 +101,7 @@ namespace yado_backend.Controllers
             return Ok(loginResponse);
         }
 
-        [Authorize(Roles = "1,2,3")]
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserDetailsDto updatedUser)
         {

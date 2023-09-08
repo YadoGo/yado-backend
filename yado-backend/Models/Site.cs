@@ -5,9 +5,13 @@ namespace yado_backend.Models
 {
 	public class Site
 	{
+        [Required]
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public required Guid Id { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public required string TypeRomm { get; set; }
 
         [Required]
         [StringLength(200)]

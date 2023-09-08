@@ -8,7 +8,6 @@
         public required string LastName { get; set; }
         public required string Email { get; set; }
         public string? ImageProfile { get; set; }
-        public int RoleId { get; set; }
     }
 }
 

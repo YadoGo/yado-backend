@@ -8,6 +8,6 @@ namespace yado_backend.Repositories
         Task<IEnumerable<Review>> GetAllReviewsByUserId(Guid userId);
         Task<bool> InsertReview(Review review);
         Task<bool> UpdateReviewById(Review review);
-        Task<bool> DeleteReviewById(int reviewId, Guid userId);
+        Task<bool> DeleteReviewById(Guid reviewId, Guid userId);
     }
 }

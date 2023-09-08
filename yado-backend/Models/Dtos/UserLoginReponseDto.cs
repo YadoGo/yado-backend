@@ -1,5 +1,4 @@
-﻿using System;
-namespace yado_backend.Models.Dtos
+﻿namespace yado_backend.Models.Dtos
 {
 	public class UserLoginReponseDto
 	{

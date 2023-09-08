@@ -17,7 +17,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.10" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -44,6 +44,9 @@
     <None Remove="Repositories\Company\" />
     <None Remove="Models\Dtos\" />
     <None Remove="Mapper\" />
+    <None Remove="Repositories\UserRole\" />
+    <None Remove="Enums\" />
+    <None Remove="Repositories\UserRoleRequest\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -61,6 +64,9 @@
     <Folder Include="Repositories\Company\" />
     <Folder Include="Models\Dtos\" />
     <Folder Include="Mapper\" />
+    <Folder Include="Repositories\UserRole\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Repositories\UserRoleRequest\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="appsettings.json" />

@@ -5,9 +5,9 @@ namespace yado_backend.Models
 {
 	public class Image
 	{
+        [Required]
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public required Guid Id { get; set; }
 
         [Required]
         [Column(TypeName = "varbinary(8000)")]

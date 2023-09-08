@@ -16,7 +16,7 @@ namespace yado_backend.Controllers
             _ownerRepository = ownerRepository;
         }
 
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ResponseCache(CacheProfileName = "CacheProfile120sec")]
         public async Task<IActionResult> GetAllOwners()
@@ -25,7 +25,7 @@ namespace yado_backend.Controllers
             return Ok(owners);
         }
 
-        [Authorize(Roles = "2,3")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> InsertOwner(Owner owner)
         {
@@ -37,7 +37,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{ownerId}")]
         public async Task<IActionResult> DeleteOwner(int ownerId)
         {

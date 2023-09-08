@@ -10,7 +10,7 @@ namespace yado_backend.Repositories
 
         Task<bool> InsertSite(Site site);
 
-        Task<bool> DeleteSiteById(int siteId);
+        Task<bool> DeleteSiteById(Guid siteId);
 
         Task<bool> UpdateSiteById(Site site);
     }

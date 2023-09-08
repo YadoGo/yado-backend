@@ -9,6 +9,8 @@ namespace yado_backend.Data
 
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<UserRoleRequest> UserRoleRequests { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Population> Populations { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
@@ -25,10 +27,36 @@ namespace yado_backend.Data
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Role>()
-                .HasMany(role => role.Users)
-                .WithOne(user => user.Role)
-                .HasForeignKey(user => user.RoleId)
+            modelBuilder.Entity<UserRole>()
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            modelBuilder.Entity<UserRole>()
+                .HasOne(ur => ur.User)
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(ur => ur.UserId)
+                .OnDelete(DeleteBehavior.Cascade); ;
+
+            modelBuilder.Entity<UserRole>()
+                .HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleId);
+
+            modelBuilder.Entity<UserRoleRequest>()
+                .HasOne(ur => ur.User)
+                .WithMany(u => u.UserRoleRequests)
+                .HasForeignKey(ur => ur.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserRoleRequest>()
+                .HasOne(ur => ur.RequestedRole)
+                .WithMany()
+                .HasForeignKey(ur => ur.RequestedRoleId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserRoleRequest>()
+                .HasOne(ur => ur.ApprovedByUser)
+                .WithMany()
+                .HasForeignKey(ur => ur.ApprovedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Population>()

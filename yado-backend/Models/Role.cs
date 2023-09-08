@@ -16,7 +16,7 @@ namespace yado_backend.Models
         [StringLength(100)]
         public required string Description { get; set; }
 
-        public List<User> Users { get; set; } = new List<User>();
+        public required ICollection<UserRole> UserRoles { get; set; }
     }
 }
 

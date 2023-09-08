@@ -25,7 +25,7 @@ namespace yado_backend.Controllers
             return Ok(companies);
         }
 
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> InsertCompany([FromBody] Company company)
         {
@@ -36,7 +36,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("{companyId}")]
         public async Task<IActionResult> UpdateCompanyById(int companyId, [FromBody] Company company)
         {
@@ -47,7 +47,7 @@ namespace yado_backend.Controllers
             return NotFound();
         }
 
-        [Authorize(Roles = "3")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{companyId}")]
         public async Task<IActionResult> DeleteCompanyById(int companyId)
         {

@@ -45,7 +45,7 @@ namespace yado_backend.Repositories
             return false;
         }
 
-        public async Task<bool> DeleteReviewById(int reviewId, Guid userId)
+        public async Task<bool> DeleteReviewById(Guid reviewId, Guid userId)
         {
             var review = await _dbContext.Reviews.FirstOrDefaultAsync(r =>
                 r.Id == reviewId && r.UserId == userId);

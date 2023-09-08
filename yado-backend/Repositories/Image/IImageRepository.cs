@@ -7,6 +7,6 @@ namespace yado_backend.Repositories
         Task<IEnumerable<Image>> GetAllImagesByHotelId(Guid hotelId);
         Task<bool> InsertImage(Image image);
         Task<bool> UpdateImagePositions(IEnumerable<Image> images);
-        Task<bool> DeleteImageById(int imageId);
+        Task<bool> DeleteImageById(Guid imageId);
     }
 }

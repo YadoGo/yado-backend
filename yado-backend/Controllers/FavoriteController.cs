@@ -26,7 +26,7 @@ namespace yado_backend.Controllers
             return Ok(favorites);
         }
 
-        [Authorize(Roles = "2,3")]
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("hotel/{hotelId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
         public async Task<IActionResult> GetAllFavoritesByHotelId(Guid hotelId)

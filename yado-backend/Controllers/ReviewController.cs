@@ -35,7 +35,7 @@ namespace yado_backend.Controllers
             return Ok(reviews);
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> InsertReview(Review review)
         {
@@ -47,7 +47,7 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "User")]
         [HttpPut]
         public async Task<IActionResult> UpdateReview(Review review)
         {
@@ -59,10 +59,11 @@ namespace yado_backend.Controllers
             return NotFound();
         }
 
-        [Authorize(Roles = "2, 3")]
+        [Authorize(Roles = "User, Admin")]
         [HttpDelete("{reviewId}/{userId}")]
-        public async Task<IActionResult> DeleteReview(int reviewId, Guid userId)
+        public async Task<IActionResult> DeleteReview(Guid reviewId, Guid userId)
         {
+
             var success = await _reviewRepository.DeleteReviewById(reviewId, userId);
             if (success)
             {

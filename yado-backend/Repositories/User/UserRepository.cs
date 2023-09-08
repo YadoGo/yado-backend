@@ -49,9 +49,6 @@ namespace yado_backend.Repositories
         public async Task<User> Register(UserRegisterDto userRegisterDto)
         {
             var passwordEncrypt = EncryptPasswordWithMD5(userRegisterDto.Password);
-            var roleId = userRegisterDto.RoleId;
-
-            var role = await _dbContext.Roles.FindAsync(roleId);
 
             User user = new()
             { 
@@ -61,12 +58,21 @@ namespace yado_backend.Repositories
                 Password = passwordEncrypt,
                 FirstName = userRegisterDto.FirstName,
                 LastName = userRegisterDto.LastName,
-                Role = role
             };
 
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
             user.Password = passwordEncrypt;
+
+            UserRole userRole = new()
+            {
+                UserId = user.Id,
+                RoleId = 1
+            };
+
+            _dbContext.UserRoles.Add(userRole);
+            await _dbContext.SaveChangesAsync();
+
             return user;
         }
 
@@ -88,6 +94,7 @@ namespace yado_backend.Repositories
                 };
             }
 
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secretKey);
 
@@ -97,11 +104,17 @@ namespace yado_backend.Repositories
                 {
                     new Claim(ClaimTypes.Email, user.Email.ToString()),
                     new Claim("Id", user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.RoleId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
+            var userRoles = await GetUserRoles(user.Id);
+
+            foreach (var role in userRoles)
+            {
+                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
@@ -156,6 +169,16 @@ namespace yado_backend.Repositories
             }
 
             return resp;
+        }
+
+        public async Task<List<string>> GetUserRoles(Guid userId)
+        {
+            var userRoles = await _dbContext.UserRoles
+                .Where(ur => ur.UserId == userId)
+                .Select(ur => ur.Role.Name)
+                .ToListAsync();
+
+            return userRoles;
         }
     }
 }

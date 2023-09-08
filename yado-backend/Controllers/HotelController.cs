@@ -29,7 +29,7 @@ namespace yado_backend.Controllers
             return Ok(hotel);
         }
 
-        [Authorize(Roles = "2, 3")]
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("owner/{userId}")]
         public async Task<IActionResult> GetAllHotelsByOwnerId(Guid userId)
         {
@@ -63,7 +63,7 @@ namespace yado_backend.Controllers
             return filteredHotels.ToList();
         }
 
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "Hotel Manager")]
         [HttpPost]
         public async Task<IActionResult> InsertHotel(Hotel hotel)
         {

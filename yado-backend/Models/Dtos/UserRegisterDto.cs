@@ -25,11 +25,6 @@ namespace yado_backend.Models.Dtos
         [Required(ErrorMessage = "Password is required")]
         [StringLength(50)]
         public required string Password { get; set; }
-
-        [Range(1, 3, ErrorMessage = "Role ID must be between 1 and 3.")]
-        [DefaultValue(1)]
-        public int RoleId { get; set; }
-
     }
 }
 

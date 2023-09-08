@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using yado_backend.Data;
 
@@ -10,9 +11,11 @@ using yado_backend.Data;
 namespace yado_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230907155029_ChangeMultiRoles")]
+    partial class ChangeMultiRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,9 +128,9 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Image", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -345,13 +348,9 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Review", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("Date")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("int");
 
                     b.Property<Guid>("HotelId")
                         .HasColumnType("char(36)");
@@ -368,6 +367,10 @@ namespace yado_backend.Migrations
 
                     b.Property<float>("Qualification")
                         .HasColumnType("float");
+
+                    b.Property<DateTime>("ReviewDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -404,9 +407,9 @@ namespace yado_backend.Migrations
 
             modelBuilder.Entity("yado_backend.Models.Site", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
@@ -422,11 +425,6 @@ namespace yado_backend.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.Property<string>("TypeRomm")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
@@ -441,10 +439,6 @@ namespace yado_backend.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -495,47 +489,6 @@ namespace yado_backend.Migrations
                         .IsUnique();
 
                     b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("yado_backend.Models.UserRoleRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("ApprovedByUserId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("LastStatusUpdate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Message")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<DateTime>("RequestedAt")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("RequestedRoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApprovedByUserId");
-
-                    b.HasIndex("RequestedRoleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRoleRequests");
                 });
 
             modelBuilder.Entity("yado_backend.Models.Favorite", b =>
@@ -677,32 +630,6 @@ namespace yado_backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("yado_backend.Models.UserRoleRequest", b =>
-                {
-                    b.HasOne("yado_backend.Models.User", "ApprovedByUser")
-                        .WithMany()
-                        .HasForeignKey("ApprovedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("yado_backend.Models.Role", "RequestedRole")
-                        .WithMany()
-                        .HasForeignKey("RequestedRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("yado_backend.Models.User", "User")
-                        .WithMany("UserRoleRequests")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApprovedByUser");
-
-                    b.Navigation("RequestedRole");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("yado_backend.Models.Company", b =>
                 {
                     b.Navigation("Sites");
@@ -746,8 +673,6 @@ namespace yado_backend.Migrations
                     b.Navigation("OwnedHotels");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("UserRoleRequests");
 
                     b.Navigation("UserRoles");
                 });
