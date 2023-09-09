@@ -10,7 +10,7 @@ namespace yado_backend.Models
         public required Guid Id { get; set; }
 
         [Required]
-        [Column(TypeName = "varbinary(8000)")]
+        [StringLength(5000)]
         public required string ImagePath { get; set; }
 
         [Required]

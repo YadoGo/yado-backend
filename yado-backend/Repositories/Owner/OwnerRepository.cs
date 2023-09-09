@@ -27,7 +27,7 @@ namespace yado_backend.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteOwnerByID(int ownerId)
+        public async Task<bool> DeleteOwnerByID(Guid ownerId)
         {
             var owner = await _dbContext.Owners.FindAsync(ownerId);
             if (owner != null)

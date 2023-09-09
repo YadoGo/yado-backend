@@ -140,11 +140,12 @@ namespace yado_backend.Data
             modelBuilder.Entity<Parameter>()
                 .HasKey(parameter => parameter.HotelId);
 
-            modelBuilder.Entity<Parameter>()
-                .HasOne(parameter => parameter.Hotel)
-                .WithOne(hotel => hotel.Parameters)
+            modelBuilder.Entity<Hotel>()
+                .HasOne(hotel => hotel.Parameter) 
+                .WithOne(parameter => parameter.Hotel) 
                 .HasForeignKey<Parameter>(parameter => parameter.HotelId)
                 .OnDelete(DeleteBehavior.Cascade);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

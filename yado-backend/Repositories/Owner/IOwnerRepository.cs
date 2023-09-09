@@ -8,6 +8,6 @@ namespace yado_backend.Repositories
 
         Task<bool> InsertOwner(Owner owner);
 
-        Task<bool> DeleteOwnerByID(int ownerId);
+        Task<bool> DeleteOwnerByID(Guid ownerId);
     }
 }

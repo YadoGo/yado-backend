@@ -6,9 +6,9 @@ namespace yado_backend.Models
 {
 	public class Owner
 	{
+        [Required]
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public required Guid Id { get; set; }
 
         [Required]
         public required Guid UserId { get; set; }

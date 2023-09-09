@@ -39,7 +39,7 @@ namespace yado_backend.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{ownerId}")]
-        public async Task<IActionResult> DeleteOwner(int ownerId)
+        public async Task<IActionResult> DeleteOwner(Guid ownerId)
         {
             var success = await _ownerRepository.DeleteOwnerByID(ownerId);
             if (success)

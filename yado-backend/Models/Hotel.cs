@@ -15,14 +15,14 @@ namespace yado_backend.Models
         public required string Name { get; set; }
 
         [Required]
-        [StringLength(1500)]
+        [StringLength(5000)]
         public required string Description { get; set; }
 
         [Required]
         public int Stars { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(500)]
         public required string Address { get; set; }
 
         [Required]
@@ -38,10 +38,7 @@ namespace yado_backend.Models
 
         public virtual required Population Population { get; set; }
 
-        [ForeignKey("Parameter")]
-        public int ParameterId { get; set; }
-
-        public virtual required Parameter Parameters { get; set; }
+        public virtual required Parameter Parameter { get; set; }
 
         public virtual List<Owner> Owners { get; set; } = new List<Owner>();
 
