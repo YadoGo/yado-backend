@@ -14,7 +14,7 @@ namespace yado_backend.Models
         public required string TypeRomm { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(700)]
         public required string OriginUrl { get; set; }
 
         [Required]
