@@ -9,5 +9,6 @@ namespace yado_backend.Models.Dtos
         [Required]
         [StringLength(50)]
         public required string Name { get; set; }
+
     }
 }

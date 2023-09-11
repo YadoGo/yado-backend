@@ -9,5 +9,7 @@ namespace yado_backend.Repositories
         Task<bool> InsertOwner(Owner owner);
 
         Task<bool> DeleteOwnerByID(Guid ownerId);
+
+        Task<IEnumerable<Hotel>> GetHotelsByOwnerId(Guid ownerId);
     }
 }

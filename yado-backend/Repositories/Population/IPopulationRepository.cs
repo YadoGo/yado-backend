@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using yado_backend.Models;
+﻿using yado_backend.Models.Dtos;
 
 namespace yado_backend.Repositories
 {
     public interface IPopulationRepository
     {
-        Task<IEnumerable<Population>> SearchPopulationsByCityName(string cityName);
+        Task<IEnumerable<PopulationDto>> SearchPopulationsByCityName(string cityName);
     }
 }

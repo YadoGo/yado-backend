@@ -48,5 +48,14 @@ namespace yado_backend.Controllers
             }
             return NotFound();
         }
+
+        [Authorize(Roles = "Hotel Manager,Admin")]
+        [HttpGet("{ownerId}/hotels")]
+        public async Task<ActionResult<IEnumerable<Hotel>>> GetHotelsByOwnerId(Guid ownerId)
+        {
+            var hotels = await _ownerRepository.GetHotelsByOwnerId(ownerId);
+            return Ok(hotels);
+        }
+
     }
 }

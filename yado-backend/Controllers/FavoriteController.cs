@@ -58,5 +58,33 @@ namespace yado_backend.Controllers
             }
             return NotFound();
         }
+
+        [HttpGet("user/{userId}/count")]
+        public async Task<IActionResult> GetFavoriteCountByUserId(Guid userId)
+        {
+            try
+            {
+                int favoriteCount = await _favoriteRepository.GetFavoriteCountByUserId(userId);
+                return Ok(favoriteCount);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("hotel/{hotelId}/count")]
+        public async Task<IActionResult> GetFavoriteCountByHotelId(Guid hotelId)
+        {
+            try
+            {
+                int favoriteCount = await _favoriteRepository.GetFavoriteCountByHotelId(hotelId);
+                return Ok(favoriteCount);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
     }
 }

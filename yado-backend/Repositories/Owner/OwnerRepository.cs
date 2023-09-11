@@ -39,5 +39,13 @@ namespace yado_backend.Repositories
 
             return false;
         }
+
+        public async Task<IEnumerable<Hotel>> GetHotelsByOwnerId(Guid ownerId)
+        {
+            return await _dbContext.Owners
+                .Where(o => o.UserId == ownerId)
+                .Select(o => o.Hotel)
+                .ToListAsync();
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace yado_backend.Repositories
         Task<IEnumerable<Favorite>> GetAllFavoritesByHotelId(Guid hotelId);
         Task<bool> InsertFavorite(Favorite favorite);
         Task<bool> DeleteFavorite(Guid userId, Guid hotelId);
+        Task<int> GetFavoriteCountByUserId(Guid userId);
+        Task<int> GetFavoriteCountByHotelId(Guid hotelId);
     }
 }

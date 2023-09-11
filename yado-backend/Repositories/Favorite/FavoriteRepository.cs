@@ -47,5 +47,16 @@ namespace yado_backend.Repositories
 
             return false;
         }
+
+        public async Task<int> GetFavoriteCountByUserId(Guid userId)
+        {
+            return await _dbContext.Favorites.CountAsync(f => f.UserId == userId);
+        }
+
+        public async Task<int> GetFavoriteCountByHotelId(Guid hotelId)
+        {
+            return await _dbContext.Favorites.CountAsync(f => f.HotelId == hotelId);
+        }
+
     }
 }
