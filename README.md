@@ -18,7 +18,7 @@
 
 ## Requirements
 
-- [ASP .NET Core](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [ASP .NET Core](https://dotnet.microsoft.com/es-es/download/dotnet/7.0)
 - [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install)
 
 ## Installation
