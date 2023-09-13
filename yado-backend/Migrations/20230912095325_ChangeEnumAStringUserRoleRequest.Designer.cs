@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using yado_backend.Data;
 
@@ -10,9 +11,11 @@ using yado_backend.Data;
 namespace yado_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230912095325_ChangeEnumAStringUserRoleRequest")]
+    partial class ChangeEnumAStringUserRoleRequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -516,7 +519,7 @@ namespace yado_backend.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("RequestedRoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -530,7 +533,7 @@ namespace yado_backend.Migrations
 
                     b.HasIndex("ApprovedByUserId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RequestedRoleId");
 
                     b.HasIndex("UserId");
 
@@ -685,7 +688,7 @@ namespace yado_backend.Migrations
 
                     b.HasOne("yado_backend.Models.Role", "RequestedRole")
                         .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RequestedRoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

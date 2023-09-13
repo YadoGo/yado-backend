@@ -10,6 +10,7 @@ namespace yado_backend.Mapper
 		{
             CreateMap<User, UserSummaryDto>().ReverseMap();
             CreateMap<User, UserDetailsDto>().ReverseMap();
+            CreateMap<User, UserChangePasswordDto>().ReverseMap();
         }
 	}
 }

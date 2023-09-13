@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using yado_backend.Enums;
 using yado_backend.Models.Dtos;
 using yado_backend.Repositories;
 
@@ -11,18 +11,18 @@ namespace yado_backend.Controllers
     public class UserRoleRequestController : ControllerBase
     {
         private readonly IUserRoleRequestRepository _userRoleRequestRepository;
+        private readonly IMapper _mapper;
 
-        public UserRoleRequestController(IUserRoleRequestRepository userRoleRequestRepository)
+        public UserRoleRequestController(IUserRoleRequestRepository userRoleRequestRepository, IMapper mapper)
         {
             _userRoleRequestRepository = userRoleRequestRepository;
+            _mapper = mapper;
         }
 
         [Authorize(Roles = "User")]
         [HttpPost]
-        public async Task<IActionResult> CreateUserUserRoleRequest(Guid userId, [FromBody] UserUserRoleRequestDto userRoleRequestDto)
+        public async Task<IActionResult> CreateUserUserRoleRequest([FromBody] UserUserRoleRequestDto userRoleRequestDto)
         {
-            userRoleRequestDto.UserId = userId;
-
             var userRoleRequest = await _userRoleRequestRepository.CreateAsync(userRoleRequestDto);
 
             if (userRoleRequest != null)
@@ -33,10 +33,26 @@ namespace yado_backend.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "User")]
+        [HttpGet("{userId}")]
+        [ResponseCache(CacheProfileName = "CacheProfile1day")]
+        public async Task<IActionResult> GetUserUserRoleRequest(Guid userId)
+        {
+            var userRoleRequest = await _userRoleRequestRepository.GetUserUserRoleRequestAsync(userId);
+
+            if (userRoleRequest != null)
+            {
+                var userRoleRequestDto = _mapper.Map<UserUserRoleRequestDto>(userRoleRequest);
+                return Ok(userRoleRequestDto);
+            }
+
+            return NotFound();
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllAdminUserRoleRequests(
-            UserRoleRequestStatus? status = null,
+            string status = null,
             int page = 1,
             int pageSize = 10)
         {
@@ -48,7 +64,7 @@ namespace yado_backend.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{requestId}")]
-        public async Task<IActionResult> UpdateUserRoleRequestStatus(Guid requestId, UserRoleRequestStatus status)
+        public async Task<IActionResult> UpdateUserRoleRequestStatus(Guid requestId, string status)
         {
             var success = await _userRoleRequestRepository.UpdateUserRoleRequestStatusAsync(requestId, status);
 
@@ -70,4 +86,3 @@ namespace yado_backend.Controllers
         }
     }
 }
-

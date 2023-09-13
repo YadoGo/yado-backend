@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using yado_backend.Data;
-using yado_backend.Enums;
 using yado_backend.Models;
 using yado_backend.Models.Dtos;
 
@@ -19,8 +18,10 @@ namespace yado_backend.Repositories
         {
             var userRoleRequest = new UserRoleRequest
             {
+                Id = Guid.NewGuid(),
                 UserId = userRoleRequestDto.UserId,
-                RequestedRoleId = userRoleRequestDto.RequestedRoleId,
+                RoleId = userRoleRequestDto.RoleId,
+                Status = userRoleRequestDto.Status,
                 Message = userRoleRequestDto.Message
             };
 
@@ -36,11 +37,11 @@ namespace yado_backend.Repositories
                 .FirstOrDefaultAsync(ur => ur.UserId == userId);
         }
 
-        public async Task<List<AdminUserRoleRequestDto>> GetAllAdminUserRoleRequestsAsync(UserRoleRequestStatus? status = null, int page = 1, int pageSize = 10)
+        public async Task<List<AdminUserRoleRequestDto>> GetAllAdminUserRoleRequestsAsync(string status = null, int page = 1, int pageSize = 10)
         {
             var query = _dbContext.UserRoleRequests.AsQueryable();
 
-            if (status.HasValue)
+            if (!string.IsNullOrEmpty(status))
             {
                 query = query.Where(ur => ur.Status == status);
             }
@@ -56,7 +57,7 @@ namespace yado_backend.Repositories
                     Id = ur.Id,
                     UserId = ur.UserId,
                     Username = ur.User.Username,
-                    RequestedRoleId = ur.RequestedRoleId,
+                    RoleId = ur.RoleId,
                     RequestedRoleName = ur.RequestedRole.Name,
                     RequestedAt = ur.RequestedAt,
                     Status = ur.Status,
@@ -69,7 +70,7 @@ namespace yado_backend.Repositories
             return adminUserRoleRequests;
         }
 
-        public async Task<bool> UpdateUserRoleRequestStatusAsync(Guid requestId, UserRoleRequestStatus status)
+        public async Task<bool> UpdateUserRoleRequestStatusAsync(Guid requestId, string status)
         {
             var userRoleRequest = await _dbContext.UserRoleRequests.FindAsync(requestId);
 
@@ -91,7 +92,7 @@ namespace yado_backend.Repositories
             var deadlineDate = DateTime.UtcNow.AddDays(-7);
 
             var cancelledRequests = await _dbContext.UserRoleRequests
-                .Where(r => r.Status == UserRoleRequestStatus.Cancelled && r.LastStatusUpdate <= deadlineDate)
+                .Where(r => r.Status == "Cancelled" && r.LastStatusUpdate <= deadlineDate)
                 .ToListAsync();
 
             foreach (var request in cancelledRequests)

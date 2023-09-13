@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using yado_backend.Enums;
 
 namespace yado_backend.Models
 {
@@ -9,11 +8,9 @@ namespace yado_backend.Models
         [Key]
         public Guid Id { get; set; }
 
-        [ForeignKey("UserId")]
         public Guid UserId { get; set; }
 
-        [ForeignKey("RequestedRoleId")]
-        public int RequestedRoleId { get; set; }
+        public int RoleId { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime RequestedAt { get; set; } = DateTime.UtcNow;
@@ -21,17 +18,19 @@ namespace yado_backend.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime LastStatusUpdate { get; set; }
 
-        public UserRoleRequestStatus Status { get; set; } = UserRoleRequestStatus.InProgress;
+        public string Status { get; set; }
 
         [StringLength(500, MinimumLength = 250)]
         public string? Message { get; set; }
 
-        [ForeignKey("ApprovedByUserId")]
-        public Guid? ApprovedByUserId { get; set; }
-
+        [ForeignKey("UserId")]
         public User? User { get; set; }
 
+        [ForeignKey("RoleId")]
         public Role? RequestedRole { get; set; }
+
+        [ForeignKey("ApprovedByUserId")]
+        public Guid? ApprovedByUserId { get; set; }
 
         public User? ApprovedByUser { get; set; }
     }

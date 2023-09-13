@@ -14,7 +14,7 @@ namespace yado_backend.Repositories
     {
 
         private readonly AppDbContext _dbContext;
-        private string secretKey;
+        private readonly string secretKey;
 
 
         public UserRepository(AppDbContext dbContext)
@@ -154,6 +154,32 @@ namespace yado_backend.Repositories
             return false;
         }
 
+        public async Task<bool> ChangePassword(Guid userId, UserChangePasswordDto changePasswordDto)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            if (!VerifyPassword(user, changePasswordDto.CurrentPassword))
+            {
+                return false;
+            }
+
+            if (changePasswordDto.NewPassword != changePasswordDto.ConfirmPassword)
+            {
+                return false;
+            }
+
+            user.Password = EncryptPasswordWithMD5(changePasswordDto.NewPassword);
+
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
 
         public static string EncryptPasswordWithMD5(string password)
         {
@@ -180,6 +206,12 @@ namespace yado_backend.Repositories
 
             return userRoles;
         }
+
+        private static bool VerifyPassword(User user, string currentPassword)
+        {
+            return user.Password == EncryptPasswordWithMD5(currentPassword);
+        }
+
     }
 }
 

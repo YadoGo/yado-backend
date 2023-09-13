@@ -18,6 +18,8 @@ namespace yado_backend.Repositories
         Task<bool> UpdateUser(Guid id, UserDetailsDto updatedUser);
 
         Task<bool> DeleteUserById(Guid id);
+
+        Task<bool> ChangePassword(Guid userId, UserChangePasswordDto changePasswordDto);
     }
 }
 

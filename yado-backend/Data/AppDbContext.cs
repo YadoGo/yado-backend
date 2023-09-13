@@ -50,7 +50,7 @@ namespace yado_backend.Data
             modelBuilder.Entity<UserRoleRequest>()
                 .HasOne(ur => ur.RequestedRole)
                 .WithMany()
-                .HasForeignKey(ur => ur.RequestedRoleId)
+                .HasForeignKey(ur => ur.RoleId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserRoleRequest>()
