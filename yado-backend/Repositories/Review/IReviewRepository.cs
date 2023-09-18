@@ -5,6 +5,8 @@ namespace yado_backend.Repositories
     public interface IReviewRepository
     {
         Task<IEnumerable<Review>> GetAllReviewsByHotelId(Guid hotelId);
+        Task<int> GetReviewCountByHotelId(Guid hotelId);
+        Task<string> GetAverageRatingByHotelId(Guid hotelId);
         Task<IEnumerable<Review>> GetAllReviewsByUserId(Guid userId);
         Task<bool> InsertReview(Review review);
         Task<bool> UpdateReviewById(Review review);

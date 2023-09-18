@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using yado_backend.Models;
+using yado_backend.Models.Dtos;
 using yado_backend.Repositories;
 
 namespace yado_backend.Controllers
@@ -11,10 +12,13 @@ namespace yado_backend.Controllers
     public class FavoriteController : ControllerBase
     {
         private readonly IFavoriteRepository _favoriteRepository;
+        private readonly IMapper _mapper;
 
-        public FavoriteController(IFavoriteRepository favoriteRepository)
+        public FavoriteController(IFavoriteRepository favoriteRepository, IMapper mapper)
         {
             _favoriteRepository = favoriteRepository;
+            _mapper = mapper;
+
         }
 
         [AllowAnonymous]
@@ -35,31 +39,8 @@ namespace yado_backend.Controllers
             return Ok(favorites);
         }
 
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> InsertFavorite(Favorite favorite)
-        {
-            var success = await _favoriteRepository.InsertFavorite(favorite);
-            if (success)
-            {
-                return Ok();
-            }
-            return BadRequest();
-        }
-
-        [Authorize]
-        [HttpDelete("{userId}/{hotelId}")]
-        public async Task<IActionResult> DeleteFavorite(Guid userId, Guid hotelId)
-        {
-            var success = await _favoriteRepository.DeleteFavorite(userId, hotelId);
-            if (success)
-            {
-                return Ok();
-            }
-            return NotFound();
-        }
-
         [HttpGet("user/{userId}/count")]
+        [ResponseCache(CacheProfileName = "CacheProfile1day")]
         public async Task<IActionResult> GetFavoriteCountByUserId(Guid userId)
         {
             try
@@ -74,6 +55,7 @@ namespace yado_backend.Controllers
         }
 
         [HttpGet("hotel/{hotelId}/count")]
+        [ResponseCache(CacheProfileName = "CacheProfile1day")]
         public async Task<IActionResult> GetFavoriteCountByHotelId(Guid hotelId)
         {
             try
@@ -85,6 +67,61 @@ namespace yado_backend.Controllers
             {
                 return BadRequest($"Error: {ex.Message}");
             }
+        }
+
+        [Authorize]
+        [HttpPost("add")]
+        public async Task<IActionResult> AddFavorite([FromBody] FavoriteRequestDto favoriteRequestDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var favorite = _mapper.Map<Favorite>(favoriteRequestDto);
+
+            var result = await _favoriteRepository.AddFavoriteAsync(favorite);
+
+            if (result)
+            {
+                return Ok(new { Message = "Hotel added to favorites successfully." });
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Failed to add hotel to favorites." });
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("remove")]
+        public async Task<IActionResult> RemoveFavorite([FromBody] FavoriteRequestDto favoriteRequestDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var favorite = _mapper.Map<Favorite>(favoriteRequestDto);
+
+            var result = await _favoriteRepository.RemoveFavoriteAsync(favorite);
+
+            if (result)
+            {
+                return Ok(new { Message = "Hotel removed from favorites successfully." });
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Failed to remove hotel from favorites." });
+            }
+        }
+
+        [Authorize]
+        [HttpGet("exists")]
+        public async Task<IActionResult> FavoriteExists(Guid userId, Guid hotelId)
+        {
+            var exists = await _favoriteRepository.FavoriteExistsAsync(userId, hotelId);
+
+            return Ok(new { Exists = exists });
         }
     }
 }

@@ -13,6 +13,10 @@ namespace yado_backend.Models
         [StringLength(50)]
         public required string Name { get; set; }
 
+        public float Latitude { get; set; }
+
+        public float Longitude { get; set; }
+
         [Required]
         [StringLength(2)]
         public required string CountryCode { get; set; }

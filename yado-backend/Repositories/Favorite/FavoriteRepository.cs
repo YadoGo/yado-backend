@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using yado_backend.Data;
 using yado_backend.Models;
 
@@ -26,26 +23,54 @@ namespace yado_backend.Repositories
             return await _dbContext.Favorites.Where(f => f.HotelId == hotelId).ToListAsync();
         }
 
-        public async Task<bool> InsertFavorite(Favorite favorite)
+        public async Task<bool> AddFavoriteAsync(Favorite favorite)
         {
-            _dbContext.Favorites.Add(favorite);
-            var result = await _dbContext.SaveChangesAsync();
-            return result > 0;
+            try
+            {
+                var existingFavorite = await _dbContext.Favorites
+                    .FirstOrDefaultAsync(f => f.UserId == favorite.UserId && f.HotelId == favorite.HotelId);
+
+                if (existingFavorite != null)
+                {
+                    return false;
+                }
+
+                _dbContext.Favorites.Add(favorite);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public async Task<bool> DeleteFavorite(Guid userId, Guid hotelId)
+        public async Task<bool> RemoveFavoriteAsync(Favorite favorite)
         {
-            var favorite = await _dbContext.Favorites.FirstOrDefaultAsync(f =>
-                f.UserId == userId && f.HotelId == hotelId);
-
-            if (favorite != null)
+            try
             {
-                _dbContext.Favorites.Remove(favorite);
-                var result = await _dbContext.SaveChangesAsync();
-                return result > 0;
-            }
+                var existingFavorite = await _dbContext.Favorites
+                    .FirstOrDefaultAsync(f => f.UserId == favorite.UserId && f.HotelId == favorite.HotelId);
 
-            return false;
+                if (existingFavorite != null)
+                {
+                    _dbContext.Favorites.Remove(existingFavorite);
+                    await _dbContext.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> FavoriteExistsAsync(Guid userId, Guid hotelId)
+        {
+            return await _dbContext.Favorites
+                .AnyAsync(f => f.UserId == userId && f.HotelId == hotelId);
         }
 
         public async Task<int> GetFavoriteCountByUserId(Guid userId)

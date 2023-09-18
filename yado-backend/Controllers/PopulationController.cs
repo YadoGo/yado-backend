@@ -31,5 +31,21 @@ namespace yado_backend.Controllers
 
             return Ok(populationDtos);
         }
+
+        [AllowAnonymous]
+        [HttpGet("population-name/{id}")]
+        [ResponseCache(Duration = 86400)]
+        public async Task<ActionResult<string>> GetPopulationName(int id)
+        {
+            var populationName = await _populationRepository.GetPopulationNameById(id);
+
+            if (populationName == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(populationName);
+        }
+
     }
 }

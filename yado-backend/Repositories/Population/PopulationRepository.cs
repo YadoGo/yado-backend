@@ -16,18 +16,60 @@ namespace yado_backend.Repositories
 
         public async Task<IEnumerable<PopulationDto>> SearchPopulationsByCityName(string cityName)
         {
-            var populations = await _dbContext.Populations
-                .Include(p => p.Country)
-                .Where(p => p.Name.StartsWith(cityName))
-                .ToListAsync();
+            var parts = cityName.Split(',');
 
-            var populationDtos = populations.Select(population => new PopulationDto
+            if (parts.Length == 1)
             {
-                Id = population.Id,
-                Name = $"{population.Name}, {population.Country.Name}"
-            });
+                var populations = await _dbContext.Populations
+                    .Include(p => p.Country)
+                    .Where(p => p.Name.StartsWith(parts[0].Trim()))
+                    .ToListAsync();
 
-            return populationDtos;
+                var populationDtos = populations.Select(population => new PopulationDto
+                {
+                    Id = population.Id,
+                    Name = $"{population.Name}, {population.Country.Name}"
+                });
+
+                return populationDtos;
+            }
+            else if (parts.Length == 2)
+            {
+                var city = parts[0].Trim();
+                var country = parts[1].Trim();
+
+                var populations = await _dbContext.Populations
+                    .Include(p => p.Country)
+                    .Where(p => p.Name.StartsWith(city) && p.Country.Name.StartsWith(country))
+                    .ToListAsync();
+
+                var populationDtos = populations.Select(population => new PopulationDto
+                {
+                    Id = population.Id,
+                    Name = $"{population.Name}, {population.Country.Name}",
+                    Longitude = population.Longitude,
+                    Latitude = population.Latitude
+                });
+
+                return populationDtos;
+            }
+            else
+            {
+                throw new ArgumentException("Ambiguous search, too many commas in the string.");
+            }
         }
+
+        public async Task<string> GetPopulationNameById(int id)
+        {
+            var population = await _dbContext.Populations.FindAsync(id);
+
+            if (population == null)
+            {
+                return null;
+            }
+
+            return population.Name;
+        }
+
     }
 }

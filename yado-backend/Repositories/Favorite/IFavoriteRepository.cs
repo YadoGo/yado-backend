@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using yado_backend.Models;
+﻿using yado_backend.Models;
+using yado_backend.Models.Dtos;
 
 namespace yado_backend.Repositories
 {
@@ -8,8 +7,9 @@ namespace yado_backend.Repositories
     {
         Task<IEnumerable<Favorite>> GetAllFavoritesByUserId(Guid userId);
         Task<IEnumerable<Favorite>> GetAllFavoritesByHotelId(Guid hotelId);
-        Task<bool> InsertFavorite(Favorite favorite);
-        Task<bool> DeleteFavorite(Guid userId, Guid hotelId);
+        Task<bool> AddFavoriteAsync(Favorite favorite);
+        Task<bool> RemoveFavoriteAsync(Favorite favorite);
+        Task<bool> FavoriteExistsAsync(Guid userId, Guid hotelId);
         Task<int> GetFavoriteCountByUserId(Guid userId);
         Task<int> GetFavoriteCountByHotelId(Guid hotelId);
     }

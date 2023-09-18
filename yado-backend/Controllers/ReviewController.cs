@@ -27,6 +27,38 @@ namespace yado_backend.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("hotel/{hotelId}/review-count")]
+        [ResponseCache(CacheProfileName = "CacheProfile60sec")]
+        public async Task<IActionResult> GetReviewCountByHotelId(Guid hotelId)
+        {
+            try
+            {
+                var reviewCount = await _reviewRepository.GetReviewCountByHotelId(hotelId);
+                return Ok(reviewCount);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("hotel/{hotelId}/average-rating")]
+        [ResponseCache(CacheProfileName = "CacheProfile60sec")]
+        public async Task<IActionResult> GetAverageRatingByHotelId(Guid hotelId)
+        {
+            try
+            {
+                var averageRating = await _reviewRepository.GetAverageRatingByHotelId(hotelId);
+                return Ok(averageRating);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [AllowAnonymous]
         [HttpGet("user/{userId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
         public async Task<IActionResult> GetAllReviewsByUserId(Guid userId)

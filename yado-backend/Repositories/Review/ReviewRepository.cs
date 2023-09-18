@@ -18,6 +18,29 @@ namespace yado_backend.Repositories
             return await _dbContext.Reviews.Where(r => r.HotelId == hotelId).ToListAsync();
         }
 
+        public async Task<int> GetReviewCountByHotelId(Guid hotelId)
+        {
+            return await _dbContext.Reviews
+                .Where(r => r.HotelId == hotelId)
+                .CountAsync();
+        }
+
+        public async Task<string> GetAverageRatingByHotelId(Guid hotelId)
+        {
+            var reviews = await _dbContext.Reviews.Where(r => r.HotelId == hotelId).ToListAsync();
+
+            if (reviews.Any())
+            {
+                var averageRating = reviews.Average(r => r.Qualification);
+                return averageRating.ToString(averageRating % 1 == 0 ? "0" : "0.0#");
+            }
+            else
+            {
+                return "0";
+            }
+        }
+
+
         public async Task<IEnumerable<Review>> GetAllReviewsByUserId(Guid userId)
         {
             return await _dbContext.Reviews.Where(r => r.UserId == userId).ToListAsync();
