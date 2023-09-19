@@ -52,6 +52,21 @@ namespace yado_backend.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("username/{username}")]
+        public async Task<IActionResult> GetUserByUsername(string username)
+        {
+            var userByUsername = await _userRepository.GetUserByUsername(username);
+            if (userByUsername != null)
+            {
+                var userDetailsDto = _mapper.Map<UserDetailsDto>(userByUsername);
+                return Ok(userDetailsDto);
+            }
+
+            return NotFound();
+        }
+
+
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
         {

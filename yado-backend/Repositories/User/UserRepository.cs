@@ -7,6 +7,7 @@ using yado_backend.Models.Dtos;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 
 namespace yado_backend.Repositories
 {
@@ -33,6 +34,13 @@ namespace yado_backend.Repositories
         {
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
+
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+        }
+
 
         public bool IsUniqueUser(string username, string email)
         {
