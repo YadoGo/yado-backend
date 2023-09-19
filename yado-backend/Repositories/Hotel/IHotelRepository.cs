@@ -9,7 +9,7 @@ namespace yado_backend.Repositories
         Task<Hotel> GetHotelByIdAsync(Guid id);
         Task<IEnumerable<Hotel>> GetAllHotelsByUserIdAsync(Guid userId);
         Task<IEnumerable<HotelSummaryDto>> GetAllHotelsByPopulationIdAsync(int populationId, int page, int pageSize);
-        Task<IEnumerable<Hotel>> GetHotelsByParametersAsync(int populationId, Parameter parameters);
+        Task<IEnumerable<HotelSummaryDto>> GetHotelsByParametersAsync(ParameterDto parameters, int populationId, int page, int pageSize);
         Task<bool> InsertHotelAsync(Hotel hotel);
         Task<bool> UpdateHotelByIdAsync(Guid id, Hotel updatedHotel);
         Task<bool> DeleteHotelByIdAsync(Guid id);

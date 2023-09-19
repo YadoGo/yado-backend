@@ -65,7 +65,6 @@ namespace yado_backend.Controllers
             return NotFound();
         }
 
-
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)

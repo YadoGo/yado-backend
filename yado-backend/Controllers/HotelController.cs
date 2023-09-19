@@ -62,10 +62,10 @@ namespace yado_backend.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("{populationId}/filter")]
-        public async Task<IActionResult> GetHotelsByParameters(int populationId, [FromQuery] Parameter parameters)
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetHotelsByParameters([FromQuery] ParameterDto parameters, int populationId, int page, int pageSize)
         {
-            var filteredHotels = await _hotelRepository.GetHotelsByParametersAsync(populationId, parameters);
+            var filteredHotels = await _hotelRepository.GetHotelsByParametersAsync(parameters, populationId, page, pageSize);
 
             return Ok(filteredHotels.ToList());
         }
