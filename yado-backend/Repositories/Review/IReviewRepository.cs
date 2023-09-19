@@ -1,4 +1,5 @@
 ﻿using yado_backend.Models;
+using yado_backend.Models.Dtos;
 
 namespace yado_backend.Repositories
 {
@@ -8,7 +9,7 @@ namespace yado_backend.Repositories
         Task<int> GetReviewCountByHotelId(Guid hotelId);
         Task<string> GetAverageRatingByHotelId(Guid hotelId);
         Task<IEnumerable<Review>> GetAllReviewsByUserId(Guid userId);
-        Task<bool> InsertReview(Review review);
+        Task<bool> InsertReview(ReviewCreateDto reviewCreateDto);
         Task<bool> UpdateReviewById(Review review);
         Task<bool> DeleteReviewById(Guid reviewId, Guid userId);
     }

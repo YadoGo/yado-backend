@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using yado_backend.Models;
+using yado_backend.Models.Dtos;
 using yado_backend.Repositories;
-
 namespace yado_backend.Controllers
 {
     [ApiController]
@@ -69,14 +68,14 @@ namespace yado_backend.Controllers
 
         [Authorize(Roles = "User")]
         [HttpPost]
-        public async Task<IActionResult> InsertReview(Review review)
+        public async Task<IActionResult> InsertReview(ReviewCreateDto reviewCreateDto)
         {
-            var success = await _reviewRepository.InsertReview(review);
+            var success = await _reviewRepository.InsertReview(reviewCreateDto);
             if (success)
             {
                 return Ok();
             }
-            return BadRequest();
+            return BadRequest("Failed to insert review.");
         }
 
         [Authorize(Roles = "User")]

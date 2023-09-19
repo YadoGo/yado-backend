@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using yado_backend.Data;
 using yado_backend.Models;
+using yado_backend.Models.Dtos;
 
 namespace yado_backend.Repositories
 {
@@ -46,12 +47,34 @@ namespace yado_backend.Repositories
             return await _dbContext.Reviews.Where(r => r.UserId == userId).ToListAsync();
         }
 
-        public async Task<bool> InsertReview(Review review)
+        public async Task<bool> InsertReview(ReviewCreateDto reviewCreateDto)
         {
+            var user = await _dbContext.Users.FindAsync(reviewCreateDto.UserId);
+
+            var hotel = await _dbContext.Hotels.FindAsync(reviewCreateDto.HotelId);
+
+            if (user == null || hotel == null)
+            {
+                return false;
+            }
+
+
+            var review = new Review
+            {
+                Id = Guid.NewGuid(),
+                Qualification = reviewCreateDto.Qualification,
+                PositiveComment = reviewCreateDto.PositiveComment,
+                NegativeComment = reviewCreateDto.NegativeComment,
+                UserId = user.Id,
+                HotelId = hotel.Id,
+            };
+
             _dbContext.Reviews.Add(review);
             var result = await _dbContext.SaveChangesAsync();
+
             return result > 0;
         }
+
 
         public async Task<bool> UpdateReviewById(Review review)
         {

@@ -28,7 +28,9 @@ namespace yado_backend.Repositories
                 var populationDtos = populations.Select(population => new PopulationDto
                 {
                     Id = population.Id,
-                    Name = $"{population.Name}, {population.Country.Name}"
+                    Name = $"{population.Name}, {population.Country.Name}",
+                    Latitude = population.Latitude,
+                    Longitude = population.Longitude
                 });
 
                 return populationDtos;
@@ -47,8 +49,8 @@ namespace yado_backend.Repositories
                 {
                     Id = population.Id,
                     Name = $"{population.Name}, {population.Country.Name}",
-                    Longitude = population.Longitude,
-                    Latitude = population.Latitude
+                    Latitude = population.Latitude,
+                    Longitude = population.Longitude
                 });
 
                 return populationDtos;
