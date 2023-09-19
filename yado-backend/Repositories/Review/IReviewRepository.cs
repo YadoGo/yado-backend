@@ -9,8 +9,9 @@ namespace yado_backend.Repositories
         Task<int> GetReviewCountByHotelId(Guid hotelId);
         Task<string> GetAverageRatingByHotelId(Guid hotelId);
         Task<IEnumerable<Review>> GetAllReviewsByUserId(Guid userId);
+        Task<ReviewUpdateDto> GetReviewByIdAsync(Guid reviewId);
         Task<bool> InsertReview(ReviewCreateDto reviewCreateDto);
-        Task<bool> UpdateReviewById(Review review);
+        Task<bool> UpdateReviewById(Guid reviewId, ReviewUpdateDto reviewDto);
         Task<bool> DeleteReviewById(Guid reviewId, Guid userId);
     }
 }

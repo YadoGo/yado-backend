@@ -151,11 +151,12 @@ namespace yado_backend.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var server = Environment.GetEnvironmentVariable("MySql_Server");
+            var port = Environment.GetEnvironmentVariable("MySql_Port");
             var user = Environment.GetEnvironmentVariable("MySql_User");
             var password = Environment.GetEnvironmentVariable("MySql_Password");
             var database = Environment.GetEnvironmentVariable("MySql_Database");
 
-            var connectionString = $"server={server};user={user};password={password};database={database}";
+            var connectionString = $"server={server};port={port};user={user};password={password};database={database}";
 
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }

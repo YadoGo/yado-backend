@@ -16,13 +16,13 @@ namespace yado_backend.Repositories
 
         public async Task<IEnumerable<Review>> GetAllReviewsByHotelId(Guid hotelId)
         {
-            return await _dbContext.Reviews.Where(r => r.HotelId == hotelId).ToListAsync();
+            return await _dbContext.Reviews.Where(r => r.HotelId == hotelId).OrderByDescending(r => r.Date).ToListAsync();
         }
 
         public async Task<int> GetReviewCountByHotelId(Guid hotelId)
         {
             return await _dbContext.Reviews
-                .Where(r => r.HotelId == hotelId)
+                .Where(r => r.HotelId == hotelId).OrderByDescending(r => r.Date)
                 .CountAsync();
         }
 
@@ -45,6 +45,27 @@ namespace yado_backend.Repositories
         public async Task<IEnumerable<Review>> GetAllReviewsByUserId(Guid userId)
         {
             return await _dbContext.Reviews.Where(r => r.UserId == userId).ToListAsync();
+        }
+
+        public async Task<ReviewUpdateDto> GetReviewByIdAsync(Guid reviewId)
+        {
+            var review = await _dbContext.Reviews
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.Id == reviewId);
+
+            if (review == null)
+            {
+                return null;
+            }
+
+            var reviewDto = new ReviewUpdateDto
+            {
+                Qualification = review.Qualification,
+                PositiveComment = review.PositiveComment,
+                NegativeComment = review.NegativeComment
+            };
+
+            return reviewDto;
         }
 
         public async Task<bool> InsertReview(ReviewCreateDto reviewCreateDto)
@@ -76,20 +97,24 @@ namespace yado_backend.Repositories
         }
 
 
-        public async Task<bool> UpdateReviewById(Review review)
+        public async Task<bool> UpdateReviewById(Guid reviewId, ReviewUpdateDto reviewDto)
         {
-            var existingReview = await _dbContext.Reviews.FindAsync(review.Id);
+            var existingReview = await _dbContext.Reviews.FindAsync(reviewId);
+
             if (existingReview != null)
             {
-                existingReview.Qualification = review.Qualification;
-                existingReview.PositiveComment = review.PositiveComment;
-                existingReview.NegativeComment = review.NegativeComment;
+                existingReview.Qualification = reviewDto.Qualification;
+                existingReview.PositiveComment = reviewDto.PositiveComment;
+                existingReview.NegativeComment = reviewDto.NegativeComment;
 
+                _dbContext.Reviews.Update(existingReview);
                 var result = await _dbContext.SaveChangesAsync();
                 return result > 0;
             }
+
             return false;
         }
+
 
         public async Task<bool> DeleteReviewById(Guid reviewId, Guid userId)
         {

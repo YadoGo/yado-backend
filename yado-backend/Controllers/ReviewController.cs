@@ -18,7 +18,6 @@ namespace yado_backend.Controllers
 
         [AllowAnonymous]
         [HttpGet("hotel/{hotelId}")]
-        [ResponseCache(CacheProfileName = "CacheProfile60sec")]
         public async Task<IActionResult> GetAllReviewsByHotelId(Guid hotelId)
         {
             var reviews = await _reviewRepository.GetAllReviewsByHotelId(hotelId);
@@ -58,6 +57,21 @@ namespace yado_backend.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("{reviewId}")]
+        public async Task<IActionResult> GetReviewById(Guid reviewId)
+        {
+            var reviewDto = await _reviewRepository.GetReviewByIdAsync(reviewId);
+
+            if (reviewDto == null)
+            {
+                return NotFound("Review not found");
+            }
+
+            return Ok(reviewDto);
+        }
+
+
+        [AllowAnonymous]
         [HttpGet("user/{userId}")]
         [ResponseCache(CacheProfileName = "CacheProfile60sec")]
         public async Task<IActionResult> GetAllReviewsByUserId(Guid userId)
@@ -78,11 +92,12 @@ namespace yado_backend.Controllers
             return BadRequest("Failed to insert review.");
         }
 
+
         [Authorize(Roles = "User")]
-        [HttpPut]
-        public async Task<IActionResult> UpdateReview(Review review)
+        [HttpPut("{reviewId}")]
+        public async Task<IActionResult> UpdateReview(Guid reviewId, ReviewUpdateDto reviewDto)
         {
-            var success = await _reviewRepository.UpdateReviewById(review);
+            var success = await _reviewRepository.UpdateReviewById(reviewId, reviewDto);
             if (success)
             {
                 return Ok();

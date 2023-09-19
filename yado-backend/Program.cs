@@ -102,6 +102,7 @@ builder.Services.AddScoped<IUserRoleRequestRepository, UserRoleRequestRepository
 builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IParameterRepository, ParameterRepository>();
 builder.Services.AddScoped<IPopulationRepository, PopulationRepository>();
 builder.Services.AddScoped<ISiteRepository, SiteRepository>();
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();

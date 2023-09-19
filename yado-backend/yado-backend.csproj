@@ -46,6 +46,7 @@
     <None Remove="Mapper\" />
     <None Remove="Repositories\UserRole\" />
     <None Remove="Repositories\UserRoleRequest\" />
+    <None Remove="Repositories\Parameter\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -65,6 +66,7 @@
     <Folder Include="Mapper\" />
     <Folder Include="Repositories\UserRole\" />
     <Folder Include="Repositories\UserRoleRequest\" />
+    <Folder Include="Repositories\Parameter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="appsettings.json" />

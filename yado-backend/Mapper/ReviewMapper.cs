@@ -10,7 +10,7 @@ namespace yado_backend.Mapper
 		public ReviewMapper()
 		{
             CreateMap<Review, ReviewCreateDto>().ReverseMap();
-			CreateMap<Review, ReviewDto>().ReverseMap();
+            CreateMap<Review, ReviewUpdateDto>().ReverseMap();
         }
 	}
 }
